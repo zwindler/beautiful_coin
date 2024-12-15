@@ -66,8 +66,9 @@ def create_coin(output_file, shield_file):
         "viewBox": "0 0 850 850"
     })
 
-    circle_radius1 = 415
-    circle_radius2 = 380
+    circle_radius1 = 420
+    circle_radius2 = 390
+    circle_radius3 = 320
 
     circle1 = ET.Element(f"{{{svg_ns}}}circle", attrib={
         "cx": "425",
@@ -112,6 +113,29 @@ def create_coin(output_file, shield_file):
         crown_group.append(element)
 
     output_svg.append(crown_group)
+
+    path_data = f"M 425 {425 - circle_radius3} A {circle_radius3} {circle_radius3} 0 1 1 425 {425 + circle_radius3} A {circle_radius3} {circle_radius3} 0 1 1 425 {425 - circle_radius3}"
+    text_path = ET.Element(f"{{{svg_ns}}}path", attrib={
+        "id": "circle2Path",
+        "d": path_data,
+        "fill": "none"
+    })
+    output_svg.append(text_path)
+
+    text_group = ET.Element(f"{{{svg_ns}}}text", attrib={
+        "font-family": "Arial",
+        "font-size": "80",
+        "fill": "black"
+    })
+
+    text_content = ET.Element(f"{{{svg_ns}}}textPath", attrib={
+        "href": "#circle2Path",
+        "startOffset": "60%" #left of coin
+    })
+    text_content.text = "DARTH · VADA"
+
+    text_group.append(text_content)
+    output_svg.append(text_group)
 
     tree = ET.ElementTree(output_svg)
     tree.write(output_file, encoding="utf-8", xml_declaration=True)
