@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 
 def get_viewbox_scale(viewbox, target_size):
-    vb_min_x, vb_min_y, vb_width, vb_height = map(float, viewbox.split())
+    _, _, vb_width, vb_height = map(float, viewbox.split())
     scale_x = target_size[0] / vb_width
     scale_y = target_size[1] / vb_height
     return min(scale_x, scale_y)
@@ -56,4 +56,54 @@ icon_paths = [
     "svg/icon4.svg",
 ]
 
+def create_coin(output_file, shield_file):
+    svg_ns = "http://www.w3.org/2000/svg"
+    ET.register_namespace("", svg_ns)
+
+    output_svg = ET.Element(f"{{{svg_ns}}}svg", attrib={
+        "width": "850",
+        "height": "850",
+        "viewBox": "0 0 850 850"
+    })
+
+    circle_radius1 = 415
+    circle_radius2 = 380
+
+    circle1 = ET.Element(f"{{{svg_ns}}}circle", attrib={
+        "cx": "425",
+        "cy": "425",
+        "r": str(circle_radius1),
+        "stroke": "black",
+        "stroke-width": "5",
+        "fill": "#DAA520"
+    })
+    output_svg.append(circle1)
+
+    circle2 = ET.Element(f"{{{svg_ns}}}circle", attrib={
+        "cx": "425",
+        "cy": "425",
+        "r": str(circle_radius2),
+        "stroke": "black",
+        "stroke-width": "5",
+        "fill": "#FFD700"
+    })
+    output_svg.append(circle2)
+
+    shield_tree = ET.parse(shield_file)
+    shield_root = shield_tree.getroot()
+
+    shield_group = ET.Element(f"{{{svg_ns}}}g", attrib={
+        "transform": "translate(175, 200)"
+    })
+
+    for element in shield_root:
+        shield_group.append(element)
+
+    output_svg.append(shield_group)
+
+    tree = ET.ElementTree(output_svg)
+    tree.write(output_file, encoding="utf-8", xml_declaration=True)
+
+
 merge_svgs("output/coat_of_arms.svg", "svg/shield.svg", icon_paths)
+create_coin("output/coin.svg", "output/coat_of_arms.svg")
