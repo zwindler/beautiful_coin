@@ -93,7 +93,7 @@ def create_coin(output_file, shield_file):
     shield_root = shield_tree.getroot()
 
     shield_group = ET.Element(f"{{{svg_ns}}}g", attrib={
-        "transform": "translate(175, 200)"
+        "transform": "translate(175, 250)"
     })
 
     for element in shield_root:
@@ -101,9 +101,20 @@ def create_coin(output_file, shield_file):
 
     output_svg.append(shield_group)
 
+    crown_tree = ET.parse("svg/crown.svg")
+    crown_root = crown_tree.getroot()
+
+    crown_group = ET.Element(f"{{{svg_ns}}}g", attrib={
+        "transform": "translate(260, -20) scale(2.5)"
+    })
+
+    for element in crown_root:
+        crown_group.append(element)
+
+    output_svg.append(crown_group)
+
     tree = ET.ElementTree(output_svg)
     tree.write(output_file, encoding="utf-8", xml_declaration=True)
-
 
 merge_svgs("output/coat_of_arms.svg", "svg/shield.svg", icon_paths)
 create_coin("output/coin.svg", "output/coat_of_arms.svg")
