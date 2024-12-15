@@ -76,7 +76,7 @@ def create_coin(output_file, shield_file):
         "r": str(circle_radius1),
         "stroke": "black",
         "stroke-width": "5",
-        "fill": "#DAA520"
+        "fill": "black"
     })
     output_svg.append(circle1)
 
@@ -122,21 +122,38 @@ def create_coin(output_file, shield_file):
     })
     output_svg.append(text_path)
 
-    text_group = ET.Element(f"{{{svg_ns}}}text", attrib={
+    text_group_left = ET.Element(f"{{{svg_ns}}}text", attrib={
         "font-family": "Arial",
         "font-size": "80",
         "fill": "black",
         "font-weight": "bold" 
     })
 
-    text_content = ET.Element(f"{{{svg_ns}}}textPath", attrib={
+    text_content_left = ET.Element(f"{{{svg_ns}}}textPath", attrib={
         "href": "#circle2Path",
         "startOffset": "61%" #left of coin
     })
-    text_content.text = "DARK ▾ VADA"
+    text_content_left.text = "DARK ▾ VADA"
 
-    text_group.append(text_content)
-    output_svg.append(text_group)
+    text_group_left.append(text_content_left)
+    output_svg.append(text_group_left)
+
+    text_group_right = ET.Element(f"{{{svg_ns}}}text", attrib={
+        "font-family": "Arial",
+        "font-size": "80",
+        "fill": "black",
+        "font-weight": "bold" 
+    })
+
+    text_content_right = ET.Element(f"{{{svg_ns}}}textPath", attrib={
+        "href": "#circle2Path",
+        "startOffset": "11.8%" #right of coin
+    })
+    text_content_right.text = "VADA ▾ COIN"
+
+    text_group_right.append(text_content_right)
+    output_svg.append(text_group_right)
+
 
     tree = ET.ElementTree(output_svg)
     tree.write(output_file, encoding="utf-8", xml_declaration=True)
