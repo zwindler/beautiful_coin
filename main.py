@@ -68,7 +68,7 @@ def create_coin(output_file, shield_file):
 
     circle_radius1 = 420
     circle_radius2 = 390
-    circle_radius3 = 320
+    circle_radius3 = 315
 
     circle1 = ET.Element(f"{{{svg_ns}}}circle", attrib={
         "cx": "425",
@@ -94,7 +94,7 @@ def create_coin(output_file, shield_file):
     shield_root = shield_tree.getroot()
 
     shield_group = ET.Element(f"{{{svg_ns}}}g", attrib={
-        "transform": "translate(175, 250)"
+        "transform": "translate(175, 240)"
     })
 
     for element in shield_root:
@@ -106,7 +106,7 @@ def create_coin(output_file, shield_file):
     crown_root = crown_tree.getroot()
 
     crown_group = ET.Element(f"{{{svg_ns}}}g", attrib={
-        "transform": "translate(260, -20) scale(2.5)"
+        "transform": "translate(260, -30) scale(2.5)"
     })
 
     for element in crown_root:
@@ -125,14 +125,15 @@ def create_coin(output_file, shield_file):
     text_group = ET.Element(f"{{{svg_ns}}}text", attrib={
         "font-family": "Arial",
         "font-size": "80",
-        "fill": "black"
+        "fill": "black",
+        "font-weight": "bold" 
     })
 
     text_content = ET.Element(f"{{{svg_ns}}}textPath", attrib={
         "href": "#circle2Path",
-        "startOffset": "60%" #left of coin
+        "startOffset": "61%" #left of coin
     })
-    text_content.text = "DARTH · VADA"
+    text_content.text = "DARK ▾ VADA"
 
     text_group.append(text_content)
     output_svg.append(text_group)
