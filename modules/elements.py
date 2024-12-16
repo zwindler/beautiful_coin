@@ -199,6 +199,16 @@ def create_coin(output_file, shield_file):
     """
     svg_element = SVGBuilder.create_svg(850, 850, "0 0 850 850")
 
+    # Add a white background
+    background = ET.Element(f"{{{SVGBuilder.svg_ns}}}rect", attrib={
+        "x": "0",
+        "y": "0",
+        "width": "850",
+        "height": "850",
+        "fill": "white"
+    })
+    svg_element.append(background)
+
     # Add concentric circles to materialize the coin
     SVGBuilder.add_circle(svg_element, 420, 425, "black")
     SVGBuilder.add_circle(svg_element, 390, 425, "grey")
