@@ -2,11 +2,12 @@ import xml.etree.ElementTree as ET
 
 import modules.utils as utils
 
+svg_ns = "http://www.w3.org/2000/svg"
+
 def create_coat_of_arms(output_file, shield_file, icons):
     shield_tree = ET.parse(shield_file)
     shield_root = shield_tree.getroot()
-
-    svg_ns = "http://www.w3.org/2000/svg"
+    
     ET.register_namespace("", svg_ns)
 
     output_svg = ET.Element(f"{{{svg_ns}}}svg", attrib={
@@ -45,52 +46,51 @@ def create_coat_of_arms(output_file, shield_file, icons):
     tree = ET.ElementTree(output_svg)
     tree.write(output_file, encoding="utf-8", xml_declaration=True)
 
-def create_coin(output_file, shield_file):
-    svg_ns = "http://www.w3.org/2000/svg"
-    ET.register_namespace("", svg_ns)
 
-    output_svg = ET.Element(f"{{{svg_ns}}}svg", attrib={
-        "width": "850",
-        "height": "850",
-        "viewBox": "0 0 850 850"
-    })
-
-    circle_radius1 = 420
-    circle_radius2 = 390
-    circle_radius3 = 315
-
-    circle1 = ET.Element(f"{{{svg_ns}}}circle", attrib={
-        "cx": "425",
-        "cy": "425",
-        "r": str(circle_radius1),
+def add_circle(current_svg, radius, center, color):
+    circle = ET.Element(f"{{{svg_ns}}}circle", attrib={
+        "cx": f"{center}",
+        "cy": f"{center}",
+        "r": str(radius),
         "stroke": "black",
         "stroke-width": "5",
-        "fill": "black"
+        "fill": f"{color}"
     })
-    output_svg.append(circle1)
+    current_svg.append(circle)
+    return current_svg
 
-    circle2 = ET.Element(f"{{{svg_ns}}}circle", attrib={
-        "cx": "425",
-        "cy": "425",
-        "r": str(circle_radius2),
-        "stroke": "black",
-        "stroke-width": "5",
-        "fill": "#FFD700"
+
+def add_textpath_circle(current_svg, radius, center, id):
+    path_data = f"M {center} {center - radius} A {radius} {radius} 0 1 1 425 {center + radius} A {radius} {radius} 0 1 1 {center} {center - radius}"
+    text_path = ET.Element(f"{{{svg_ns}}}path", attrib={
+        "id": f"{id}",
+        "d": path_data,
+        "fill": "none"
     })
-    output_svg.append(circle2)
+    current_svg.append(text_path)
+    return current_svg
 
-    shield_tree = ET.parse(shield_file)
-    shield_root = shield_tree.getroot()
 
-    shield_group = ET.Element(f"{{{svg_ns}}}g", attrib={
-        "transform": "translate(175, 240)"
+def add_text_on_circle(current_svg, pos, text, id):
+    text_group = ET.Element(f"{{{svg_ns}}}text", attrib={
+        "font-family": "Arial",
+        "font-size": "80",
+        "fill": "black",
+        "font-weight": "bold" 
     })
 
-    for element in shield_root:
-        shield_group.append(element)
+    text_content = ET.Element(f"{{{svg_ns}}}textPath", attrib={
+        "href": f"#{id}",
+        "startOffset": f"{pos}%"
+    })
+    text_content.text = text
 
-    output_svg.append(shield_group)
+    text_group.append(text_content)
+    current_svg.append(text_group)
+    return current_svg
 
+
+def add_crown(current_svg):
     crown_tree = ET.parse("svg/crown.svg")
     crown_root = crown_tree.getroot()
 
@@ -101,48 +101,44 @@ def create_coin(output_file, shield_file):
     for element in crown_root:
         crown_group.append(element)
 
-    output_svg.append(crown_group)
+    current_svg.append(crown_group)
+    return current_svg
 
-    path_data = f"M 425 {425 - circle_radius3} A {circle_radius3} {circle_radius3} 0 1 1 425 {425 + circle_radius3} A {circle_radius3} {circle_radius3} 0 1 1 425 {425 - circle_radius3}"
-    text_path = ET.Element(f"{{{svg_ns}}}path", attrib={
-        "id": "circle2Path",
-        "d": path_data,
-        "fill": "none"
-    })
-    output_svg.append(text_path)
 
-    text_group_left = ET.Element(f"{{{svg_ns}}}text", attrib={
-        "font-family": "Arial",
-        "font-size": "80",
-        "fill": "black",
-        "font-weight": "bold" 
+def add_coat_of_arms(current_svg, shield_file):
+    shield_tree = ET.parse(shield_file)
+    shield_root = shield_tree.getroot()
+
+    shield_group = ET.Element(f"{{{svg_ns}}}g", attrib={
+        "transform": "translate(175, 240)"
     })
 
-    text_content_left = ET.Element(f"{{{svg_ns}}}textPath", attrib={
-        "href": "#circle2Path",
-        "startOffset": "61%" #left of coin
+    for element in shield_root:
+        shield_group.append(element)
+
+    current_svg.append(shield_group)
+    return current_svg
+
+def create_coin(output_file, shield_file):
+    ET.register_namespace("", svg_ns)
+
+    output_svg = ET.Element(f"{{{svg_ns}}}svg", attrib={
+        "width": "850",
+        "height": "850",
+        "viewBox": "0 0 850 850"
     })
-    text_content_left.text = "DARK ▾ VADA"
 
-    text_group_left.append(text_content_left)
-    output_svg.append(text_group_left)
+    add_circle(output_svg, 420, 425, "black")
+    add_circle(output_svg, 390, 425, "grey")
 
-    text_group_right = ET.Element(f"{{{svg_ns}}}text", attrib={
-        "font-family": "Arial",
-        "font-size": "80",
-        "fill": "black",
-        "font-weight": "bold" 
-    })
+    add_coat_of_arms(output_svg, shield_file)
 
-    text_content_right = ET.Element(f"{{{svg_ns}}}textPath", attrib={
-        "href": "#circle2Path",
-        "startOffset": "11.8%" #right of coin
-    })
-    text_content_right.text = "VADA ▾ COIN"
+    add_crown(output_svg)
 
-    text_group_right.append(text_content_right)
-    output_svg.append(text_group_right)
-
+    # create a SVG textPath and add text on both side of the coin
+    add_textpath_circle(output_svg, 315, 425, "circlePath")
+    add_text_on_circle(output_svg, "61", "DARK ▾ VADA", "circlePath")
+    add_text_on_circle(output_svg, "11.8", "VADA ▾ COIN", "circlePath")
 
     tree = ET.ElementTree(output_svg)
     tree.write(output_file, encoding="utf-8", xml_declaration=True)
