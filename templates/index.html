@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coat of Arms Generator</title>
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        #left, #right {
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        #left {
+            background-color: #f4f4f4;
+            border-right: 1px solid #ccc;
+        }
+        #right {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        button {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        svg {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="left">
+        <h2>Select Crown and Generate</h2>
+        <form id="generator-form">
+            <label for="crown">Choose a crown:</label>
+            <select name="crown" id="crown">
+                <option value="svg/crown1.svg">Crown 1</option>
+                <option value="svg/crown2.svg">Crown 2</option>
+                <option value="svg/crown3.svg">Crown 3</option>
+            </select>
+            <button type="submit">Generate</button>
+        </form>
+    </div>
+    <div id="right">
+        <div id="output">
+            <p>Generated SVG will appear here.</p>
+        </div>
+    </div>
+    <script>
+        const form = document.getElementById('generator-form');
+        const output = document.getElementById('output');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch('/generate', {
+                method: 'POST',
+                body: formData,
+            });
+            if (response.ok) {
+                const svgContent = await response.text();
+                output.innerHTML = svgContent;
+            } else {
+                output.innerHTML = `<p>Error generating SVG. Please try again.</p>`;
+            }
+        });
+    </script>
+</body>
+</html>

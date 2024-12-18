@@ -9,7 +9,6 @@ icon_paths = [
     "svg/icon2.svg",
 ]
 shield_path = "svg/shield1.svg"
-crown_path = "svg/crown2.svg"
 
 class SVGBuilder:
     """Utility class for simplifying SVG element manipulation."""
@@ -211,7 +210,7 @@ def add_white_background(parent):
     parent.append(background)
     return 
 
-def create_coin(output_file, coat_of_arms_path):
+def create_coin(output_file, coat_of_arms_path, crown_path):
     """
     Creates a complete SVG coin with concentric circles, coat of arms, crown, and text.
 
