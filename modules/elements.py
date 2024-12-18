@@ -1,6 +1,16 @@
 import xml.etree.ElementTree as ET
 import modules.utils as utils
 
+
+icon_paths = [
+    "svg/icon1.svg",
+    "svg/icon5.svg",
+    "svg/icon4.svg",
+    "svg/icon2.svg",
+]
+shield_path = "svg/shield1.svg"
+crown_path = "svg/crown2.svg"
+
 class SVGBuilder:
     """Utility class for simplifying SVG element manipulation."""
     svg_ns = "http://www.w3.org/2000/svg"
@@ -97,7 +107,7 @@ class SVGBuilder:
         return parent
 
     @staticmethod
-    def add_text_on_circle(parent, pos, text, path_id, font_family="Arial", font_size=80, fill="black", font_weight="bold"):
+    def add_text_on_circle(parent, pos, text, path_id, font_family="Arial", font_size=100, fill="black", font_weight="bold"):
         """
         Adds text along a circular path.
 
@@ -107,7 +117,7 @@ class SVGBuilder:
             text (str): Text content.
             path_id (str): Identifier for the path.
             font_family (str, optional): Font family (default: "Arial").
-            font_size (int, optional): Font size (default: 80).
+            font_size (int, optional): Font size (default: 100).
             fill (str, optional): Text color (default: "black").
             font_weight (str, optional): Font weight (default: "bold").
 
@@ -129,37 +139,38 @@ class SVGBuilder:
         parent.append(text_group)
         return parent
     
-    def add_crown(svg_element):
+    def add_crown(parent, crown_path):
         """
         Adds a crown to an SVG element.
 
         Args:
-            svg_element (ET.Element): Parent SVG element.
+            parent (ET.Element): Parent SVG element.
+            crown_path (str): Path to the crown SVG file.
 
         Returns:
             ET.Element: Updated parent element.
         """
-        crown_tree = ET.parse("svg/crown.svg")
+        crown_tree = ET.parse(crown_path)
         crown_root = crown_tree.getroot()
-        return SVGBuilder.add_group_with_transform(svg_element, "translate(260, -30) scale(2.5)", crown_root)
+        return SVGBuilder.add_group_with_transform(parent, "translate(260, -45) scale(2.5)", crown_root)
 
-    def add_coat_of_arms(svg_element, shield_file):
+    def add_coat_of_arms(parent, coat_of_arms_path):
         """
         Adds a coat of arms to an SVG element.
 
         Args:
-            svg_element (ET.Element): Parent SVG element.
-            shield_file (str): Path to the coat of arms SVG file.
+            parent (ET.Element): Parent SVG element.
+            coat_of_arms_path (str): Path to the coat of arms SVG file.
 
         Returns:
             ET.Element: Updated parent element.
         """
-        shield_tree = ET.parse(shield_file)
+        shield_tree = ET.parse(coat_of_arms_path)
         shield_root = shield_tree.getroot()
-        return SVGBuilder.add_group_with_transform(svg_element, "translate(175, 240)", shield_root)
+        return SVGBuilder.add_group_with_transform(parent, "translate(175, 230)", shield_root)
 
 
-def create_coat_of_arms(output_file, shield_file, icons):
+def create_coat_of_arms(output_file):
     """
     Creates a coat of arms SVG by overlaying a shield and placing icons in fixed positions.
 
@@ -168,16 +179,16 @@ def create_coat_of_arms(output_file, shield_file, icons):
         shield_file (str): Path to the shield SVG file.
         icons (list[str]): List of icon SVG file paths.
     """
-    shield_tree = ET.parse(shield_file)
+    shield_tree = ET.parse(shield_path)
     shield_root = shield_tree.getroot()
     svg_element = SVGBuilder.create_svg(500, 500)
     for element in shield_root:
         svg_element.append(element)
 
     positions = [(90, 70), (300, 70), (90, 270), (300, 270)]
-    target_size = (125, 125)
+    target_size = (130, 130)
 
-    for pos, icon_file in zip(positions, icons):
+    for pos, icon_file in zip(positions, icon_paths):
         icon_tree = ET.parse(icon_file)
         icon_root = icon_tree.getroot()
         viewbox = icon_root.attrib.get("viewBox", "0 0 100 100")
@@ -189,7 +200,18 @@ def create_coat_of_arms(output_file, shield_file, icons):
     tree = ET.ElementTree(svg_element)
     tree.write(output_file, encoding="utf-8", xml_declaration=True)
 
-def create_coin(output_file, shield_file):
+def add_white_background(parent):
+    background = ET.Element(f"{{{SVGBuilder.svg_ns}}}rect", attrib={
+        "x": "0",
+        "y": "0",
+        "width": "850",
+        "height": "850",
+        "fill": "white"
+    })
+    parent.append(background)
+    return 
+
+def create_coin(output_file, coat_of_arms_path):
     """
     Creates a complete SVG coin with concentric circles, coat of arms, crown, and text.
 
@@ -200,27 +222,20 @@ def create_coin(output_file, shield_file):
     svg_element = SVGBuilder.create_svg(850, 850, "0 0 850 850")
 
     # Add a white background
-    background = ET.Element(f"{{{SVGBuilder.svg_ns}}}rect", attrib={
-        "x": "0",
-        "y": "0",
-        "width": "850",
-        "height": "850",
-        "fill": "white"
-    })
-    svg_element.append(background)
+    add_white_background(svg_element)
 
     # Add concentric circles to materialize the coin
     SVGBuilder.add_circle(svg_element, 420, 425, "black")
-    SVGBuilder.add_circle(svg_element, 390, 425, "grey")
+    SVGBuilder.add_circle(svg_element, 400, 425, "grey")
 
     # Add coat of arms with a crown on top
-    SVGBuilder.add_coat_of_arms(svg_element, shield_file)
-    SVGBuilder.add_crown(svg_element)
+    SVGBuilder.add_coat_of_arms(svg_element, coat_of_arms_path)
+    SVGBuilder.add_crown(svg_element, crown_path)
 
     # Add circular text around a textPath, inside the coin
     SVGBuilder.add_textpath_circle(svg_element, 315, 425, "circlePath")
-    SVGBuilder.add_text_on_circle(svg_element, 61, "DARK ▾ VADA", "circlePath")
-    SVGBuilder.add_text_on_circle(svg_element, 11.8, "VADA ▾ COIN", "circlePath")
+    SVGBuilder.add_text_on_circle(svg_element, 56, "DARK ▾ VADA", "circlePath")
+    SVGBuilder.add_text_on_circle(svg_element, 10, "VADA ▾ COIN", "circlePath")
 
     tree = ET.ElementTree(svg_element)
     tree.write(output_file, encoding="utf-8", xml_declaration=True)
