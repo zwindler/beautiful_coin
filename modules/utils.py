@@ -1,10 +1,15 @@
 import xml.etree.ElementTree as ET
+import re
 
 def ensure_viewbox(svg_element):
+    def parse_dimension(value):
+        # Remove 'px' or any non-numeric characters
+        return float(re.sub(r'[^\d.]+', '', value))
+
     viewbox = svg_element.get("viewBox")
     if not viewbox:
-        width = float(svg_element.get("width", 0))
-        height = float(svg_element.get("height", 0))
+        width = parse_dimension(svg_element.get("width", "0"))
+        height = parse_dimension(svg_element.get("height", "0"))
         if width > 0 and height > 0:
             viewbox = f"0 0 {width} {height}"
             svg_element.set("viewBox", viewbox)

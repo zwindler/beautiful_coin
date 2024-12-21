@@ -9,7 +9,6 @@ icon_paths = [
     "svg/icon2.svg",
 ]
 shield_path = "svg/shield1.svg"
-target_size = (800, 800)  # Target size for all SVGs
 
 class SVGBuilder:
     """Utility class for simplifying SVG element manipulation."""
@@ -183,7 +182,7 @@ class SVGBuilder:
         """
         shield_tree = ET.parse(coat_of_arms_path)
         shield_root = shield_tree.getroot()
-        return SVGBuilder.add_group_with_transform(parent, "translate(175, 230)", shield_root)
+        return SVGBuilder.add_group_with_transform(parent, "translate(105, 150)", shield_root)
 
 def write_clean_svg(tree, output_file):
     """
@@ -211,24 +210,48 @@ def create_coat_of_arms(output_file, shield_path):
     """
     shield_tree = ET.parse(shield_path)
     shield_root = shield_tree.getroot()
-    svg_element = SVGBuilder.create_svg(500, 500)
+
+    # Ensure the shield SVG has a proper viewBox
+    utils.ensure_viewbox(shield_root)
+
+    # Fix scale issues
+    scale = utils.scale_svg(shield_root, (650, 650))
+    # print(f"Calculated scale for shield: {scale}")
+
+    # Wrap the shield elements in a <g> tag with scale transformation
+    shield_group = ET.Element("g", {"transform": f"scale({scale})"})
+    for element in list(shield_root):  # Use list to avoid modifying the root during iteration
+        shield_group.append(element)
+        shield_root.remove(element)
+    shield_root.append(shield_group)
+
+    # Create the SVG element
+    svg_element = SVGBuilder.create_svg(800, 800)
     for element in shield_root:
         svg_element.append(element)
 
-    positions = [(90, 70), (300, 70), (90, 270), (300, 270)]
-    target_size = (130, 130)
+    # Positions and target size for icons
+    positions = [(145, 150),
+                 (350, 150),
+                 (145, 350),
+                 (350, 350)]
+    target_size = (150, 150)
 
     for pos, icon_file in zip(positions, icon_paths):
         icon_tree = ET.parse(icon_file)
         icon_root = icon_tree.getroot()
+
         viewbox = icon_root.attrib.get("viewBox", "0 0 100 100")
         scale = utils.get_viewbox_scale(viewbox, target_size)
+        # print(f"Calculated scale for icon {icon_file}: {scale}")
 
         # Create a group for each icon and append it
         SVGBuilder.add_group_with_transform(svg_element, f"translate({pos[0]},{pos[1]}) scale({scale})", icon_root)
 
+    # Write the final SVG
     tree = ET.ElementTree(svg_element)
     write_clean_svg(tree, output_file)
+
 
 def create_coin(output_file, coat_of_arms_path, crown_path):
     """
