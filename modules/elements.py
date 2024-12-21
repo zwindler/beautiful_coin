@@ -29,7 +29,8 @@ class SVGBuilder:
         """
         attrib = {
             "width": str(width),
-            "height": str(height)
+            "height": str(height),
+            "style": "shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
         }
         if viewBox:
             attrib["viewBox"] = viewBox
