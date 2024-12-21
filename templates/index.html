@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coat of Arms Generator</title>
+    <title>Beautiful coin generator</title>
     <style>
         body {
             display: flex;
@@ -51,14 +51,34 @@
 </head>
 <body>
     <div id="left">
-        <h2>Select Crown and Generate</h2>
         <form id="generator-form">
+            <h2>Coat of Arms</h2>
+            <label for="shield">Choose a shield:</label>
+            <select name="shield" id="shield">
+                <option value="svg/shield1.svg">Shield 1</option>
+                <option value="svg/shield2.svg">Shield 2</option>
+                <option value="svg/shield3.svg">Shield 3</option>
+            </select>
+            <label for="upperleft">Choose upper left icon:</label>
+            <select name="upperleft" id="upperleft">
+                <option value="svg/icon1.svg">Lego brick</option>
+                <option value="svg/icon2.svg">Diamond</option>
+                <option value="svg/icon3.svg">Speeding truck</option>
+                <option value="svg/icon4.svg">Horse</option>
+                <option value="svg/icon5.svg">Truck</option>
+                <option value="svg/icon6.svg">Turned Lego brick</option>
+            </select>     
+            <h2>Select Crown</h2>
             <label for="crown">Choose a crown:</label>
             <select name="crown" id="crown">
                 <option value="svg/crown1.svg">Crown 1</option>
                 <option value="svg/crown2.svg">Crown 2</option>
                 <option value="svg/crown3.svg">Crown 3</option>
+                <option value="none">None</option>
             </select>
+            <h2>Left side</h2>
+            <h2>Right side</h2>
+            <h2>Generate</h2>
             <button type="submit">Generate</button>
         </form>
     </div>
