@@ -186,7 +186,23 @@ class SVGBuilder:
         shield_root = shield_tree.getroot()
         if crown:
             return SVGBuilder.add_group_with_transform(parent, "translate(105, 140)", shield_root)
-        return SVGBuilder.add_group_with_transform(parent, "translate(105, 125)", shield_root)
+        return SVGBuilder.add_group_with_transform(parent, "translate(105, 115)", shield_root)
+    
+    def add_laurels(parent, laurels_path):
+        """
+        Adds laurels at the coin edge
+
+        Args:
+            parent (ET.Element): Parent SVG element.
+            laurels_path (str): Path to the laurels SVG file.
+
+        Returns:
+            ET.Element: Updated parent element.
+        """
+        laurels_tree = ET.parse(laurels_path)
+        laurels_root = laurels_tree.getroot()
+        return SVGBuilder.add_group_with_transform(parent, "translate(30, 57) scale(0.615)", laurels_root)
+
 
 def write_clean_svg(tree, output_file):
     """
@@ -257,7 +273,7 @@ def create_coat_of_arms(output_file, shield_path):
     write_clean_svg(tree, output_file)
 
 
-def create_coin(output_file, coat_of_arms_path, crown_path):
+def create_coin(output_file, coat_of_arms_path, crown_path, laurels_path):
     """
     Creates a complete SVG coin with concentric circles, coat of arms, crown, and text.
 
@@ -272,7 +288,7 @@ def create_coin(output_file, coat_of_arms_path, crown_path):
 
     # Add concentric circles to materialize the coin
     SVGBuilder.add_circle(svg_element, 420, 425, "black")
-    SVGBuilder.add_circle(svg_element, 400, 425, "#333333")
+    SVGBuilder.add_circle(svg_element, 405, 425, "#333333")
 
     # Add coat of arms with a crown on top (or not)
     if crown_path != "none":
@@ -281,10 +297,14 @@ def create_coin(output_file, coat_of_arms_path, crown_path):
     else:
         SVGBuilder.add_coat_of_arms(svg_element, coat_of_arms_path, False)
 
-    # Add circular text around a textPath, inside the coin
-    SVGBuilder.add_textpath_circle(svg_element, 315, 425, "circlePath")
-    SVGBuilder.add_text_on_circle(svg_element, 56, "DARK ▾ VADA", "circlePath")
-    SVGBuilder.add_text_on_circle(svg_element, 10, "VADA ▾ COIN", "circlePath")
+    # Add laurels OR text
+    if laurels_path != "none":
+        SVGBuilder.add_laurels(svg_element, laurels_path)
+    else:
+        # Add circular text around a textPath, inside the coin
+        SVGBuilder.add_textpath_circle(svg_element, 320, 425, "circlePath")
+        SVGBuilder.add_text_on_circle(svg_element, 56, "DARK ▾ VADA", "circlePath")
+        SVGBuilder.add_text_on_circle(svg_element, 10, "VADA ▾ COIN", "circlePath")
 
     tree = ET.ElementTree(svg_element)
     write_clean_svg(tree, output_file)
