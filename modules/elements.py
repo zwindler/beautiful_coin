@@ -27,10 +27,26 @@ class SVGBuilder:
         Returns:
             ET.Element: The created SVG element.
         """
-        attrib = {"width": str(width), "height": str(height)}
+        attrib = {
+            "width": str(width),
+            "height": str(height)
+        }
         if viewBox:
             attrib["viewBox"] = viewBox
-        return ET.Element(f"{{{SVGBuilder.svg_ns}}}svg", attrib=attrib)
+        return ET.Element("svg", attrib=attrib)
+
+    @staticmethod
+    def remove_namespace(xml_string):
+        """
+        Removes unnecessary namespace prefixes from an XML string.
+
+        Args:
+            xml_string (str): The XML string to process.
+
+        Returns:
+            str: XML string without namespace prefixes.
+        """
+        return xml_string.replace('ns0:', '').replace(':ns0', '')
 
     @staticmethod
     def add_group_with_transform(parent, transform, elements):
@@ -45,7 +61,7 @@ class SVGBuilder:
         Returns:
             ET.Element: Updated parent element.
         """
-        group = ET.Element(f"{{{SVGBuilder.svg_ns}}}g", attrib={"transform": transform})
+        group = ET.Element("g", attrib={"transform": transform})
         for element in elements:
             group.append(element)
         parent.append(group)
@@ -67,7 +83,7 @@ class SVGBuilder:
         Returns:
             ET.Element: Updated parent element.
         """
-        circle = ET.Element(f"{{{SVGBuilder.svg_ns}}}circle", attrib={
+        circle = ET.Element("circle", attrib={
             "cx": str(center),
             "cy": str(center),
             "r": str(radius),
@@ -97,7 +113,7 @@ class SVGBuilder:
             f"A {radius} {radius} 0 1 1 {center} {center + radius} "
             f"A {radius} {radius} 0 1 1 {center} {center - radius}"
         )
-        text_path = ET.Element(f"{{{SVGBuilder.svg_ns}}}path", attrib={
+        text_path = ET.Element("path", attrib={
             "id": path_id,
             "d": path_data,
             "fill": "none"
@@ -123,13 +139,13 @@ class SVGBuilder:
         Returns:
             ET.Element: Updated parent element.
         """
-        text_group = ET.Element(f"{{{SVGBuilder.svg_ns}}}text", attrib={
+        text_group = ET.Element("text", attrib={
             "font-family": font_family,
             "font-size": str(font_size),
             "fill": fill,
             "font-weight": font_weight
         })
-        text_content = ET.Element(f"{{{SVGBuilder.svg_ns}}}textPath", attrib={
+        text_content = ET.Element("textPath", attrib={
             "href": f"#{path_id}",
             "startOffset": f"{pos}%"
         })
@@ -169,6 +185,22 @@ class SVGBuilder:
         return SVGBuilder.add_group_with_transform(parent, "translate(175, 230)", shield_root)
 
 
+def write_clean_svg(tree, output_file):
+    """
+    Writes an SVG tree to a file without namespace prefixes.
+
+    Args:
+        tree (ET.ElementTree): The SVG element tree.
+        output_file (str): Path to the output SVG file.
+    """
+    # Convert the ElementTree to a string
+    rough_string = ET.tostring(tree.getroot(), encoding="unicode")
+    # Remove the namespaces
+    clean_string = SVGBuilder.remove_namespace(rough_string)
+    # Write the clean string to the output file
+    with open(output_file, "w", encoding="utf-8") as f:
+        f.write(clean_string)
+
 def create_coat_of_arms(output_file):
     """
     Creates a coat of arms SVG by overlaying a shield and placing icons in fixed positions.
@@ -197,10 +229,10 @@ def create_coat_of_arms(output_file):
         SVGBuilder.add_group_with_transform(svg_element, f"translate({pos[0]},{pos[1]}) scale({scale})", icon_root)
 
     tree = ET.ElementTree(svg_element)
-    tree.write(output_file, encoding="utf-8", xml_declaration=True)
+    write_clean_svg(tree, output_file)
 
 def add_white_background(parent):
-    background = ET.Element(f"{{{SVGBuilder.svg_ns}}}rect", attrib={
+    background = ET.Element("rect", attrib={
         "x": "0",
         "y": "0",
         "width": "850",
@@ -237,4 +269,4 @@ def create_coin(output_file, coat_of_arms_path, crown_path):
     SVGBuilder.add_text_on_circle(svg_element, 10, "VADA ▾ COIN", "circlePath")
 
     tree = ET.ElementTree(svg_element)
-    tree.write(output_file, encoding="utf-8", xml_declaration=True)
+    write_clean_svg(tree, output_file)
