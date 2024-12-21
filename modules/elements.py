@@ -170,20 +170,23 @@ class SVGBuilder:
         crown_root = crown_tree.getroot()
         return SVGBuilder.add_group_with_transform(parent, "translate(260, -45) scale(2.5)", crown_root)
 
-    def add_coat_of_arms(parent, coat_of_arms_path):
+    def add_coat_of_arms(parent, coat_of_arms_path, crown):
         """
         Adds a coat of arms to an SVG element.
 
         Args:
             parent (ET.Element): Parent SVG element.
             coat_of_arms_path (str): Path to the coat of arms SVG file.
+            crown (bool): add a crown or not
 
         Returns:
             ET.Element: Updated parent element.
         """
         shield_tree = ET.parse(coat_of_arms_path)
         shield_root = shield_tree.getroot()
-        return SVGBuilder.add_group_with_transform(parent, "translate(105, 140)", shield_root)
+        if crown:
+            return SVGBuilder.add_group_with_transform(parent, "translate(105, 140)", shield_root)
+        return SVGBuilder.add_group_with_transform(parent, "translate(105, 125)", shield_root)
 
 def write_clean_svg(tree, output_file):
     """
@@ -271,9 +274,12 @@ def create_coin(output_file, coat_of_arms_path, crown_path):
     SVGBuilder.add_circle(svg_element, 420, 425, "black")
     SVGBuilder.add_circle(svg_element, 400, 425, "#333333")
 
-    # Add coat of arms with a crown on top
-    SVGBuilder.add_coat_of_arms(svg_element, coat_of_arms_path)
-    SVGBuilder.add_crown(svg_element, crown_path)
+    # Add coat of arms with a crown on top (or not)
+    if crown_path != "none":
+        SVGBuilder.add_coat_of_arms(svg_element, coat_of_arms_path, True)
+        SVGBuilder.add_crown(svg_element, crown_path)
+    else:
+        SVGBuilder.add_coat_of_arms(svg_element, coat_of_arms_path, False)
 
     # Add circular text around a textPath, inside the coin
     SVGBuilder.add_textpath_circle(svg_element, 315, 425, "circlePath")
