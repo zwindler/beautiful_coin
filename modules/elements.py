@@ -9,6 +9,7 @@ icon_paths = [
     "svg/icon2.svg",
 ]
 shield_path = "svg/shield1.svg"
+target_size = (800, 800)  # Target size for all SVGs
 
 class SVGBuilder:
     """Utility class for simplifying SVG element manipulation."""
@@ -184,7 +185,6 @@ class SVGBuilder:
         shield_root = shield_tree.getroot()
         return SVGBuilder.add_group_with_transform(parent, "translate(175, 230)", shield_root)
 
-
 def write_clean_svg(tree, output_file):
     """
     Writes an SVG tree to a file without namespace prefixes.
@@ -201,14 +201,13 @@ def write_clean_svg(tree, output_file):
     with open(output_file, "w", encoding="utf-8") as f:
         f.write(clean_string)
 
-def create_coat_of_arms(output_file):
+def create_coat_of_arms(output_file, shield_path):
     """
     Creates a coat of arms SVG by overlaying a shield and placing icons in fixed positions.
 
     Args:
         output_file (str): Path to the output SVG file.
-        shield_file (str): Path to the shield SVG file.
-        icons (list[str]): List of icon SVG file paths.
+        shield_path (str): Path to the shield SVG file.
     """
     shield_tree = ET.parse(shield_path)
     shield_root = shield_tree.getroot()
@@ -231,17 +230,6 @@ def create_coat_of_arms(output_file):
     tree = ET.ElementTree(svg_element)
     write_clean_svg(tree, output_file)
 
-def add_white_background(parent):
-    background = ET.Element("rect", attrib={
-        "x": "0",
-        "y": "0",
-        "width": "850",
-        "height": "850",
-        "fill": "white"
-    })
-    parent.append(background)
-    return 
-
 def create_coin(output_file, coat_of_arms_path, crown_path):
     """
     Creates a complete SVG coin with concentric circles, coat of arms, crown, and text.
@@ -252,8 +240,8 @@ def create_coin(output_file, coat_of_arms_path, crown_path):
     """
     svg_element = SVGBuilder.create_svg(850, 850, "0 0 850 850")
 
-    # Add a white background
-    add_white_background(svg_element)
+    # Add a white background if necessary (TODO add condition)
+    utils.add_white_background(svg_element)
 
     # Add concentric circles to materialize the coin
     SVGBuilder.add_circle(svg_element, 420, 425, "black")
