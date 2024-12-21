@@ -183,7 +183,7 @@ class SVGBuilder:
         """
         shield_tree = ET.parse(coat_of_arms_path)
         shield_root = shield_tree.getroot()
-        return SVGBuilder.add_group_with_transform(parent, "translate(105, 150)", shield_root)
+        return SVGBuilder.add_group_with_transform(parent, "translate(105, 140)", shield_root)
 
 def write_clean_svg(tree, output_file):
     """
