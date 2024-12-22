@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+import modules.utils as utils
 
 class SVGBuilder:
     """Utility class for simplifying SVG element manipulation."""
@@ -174,11 +175,26 @@ class SVGBuilder:
         Returns:
             ET.Element: Updated parent element.
         """
-        shield_tree = ET.parse(single_svg_path)
-        shield_root = shield_tree.getroot()
+        svg_tree = ET.parse(single_svg_path)
+        svg_root = svg_tree.getroot()
+
+        # Ensure the svg SVG has a proper viewBox
+        utils.ensure_viewbox(svg_root)
+
+        # Fix scale issues
+        scale = utils.scale_svg(svg_root, (512, 512))
+        print(f"Calculated scale for svg: {scale}")
+
+        # Wrap the svg elements in a <g> tag with scale transformation
+        svg_group = ET.Element("g", {"transform": f"scale({scale})"})
+        for element in list(svg_root):  # Use list to avoid modifying the root during iteration
+            svg_group.append(element)
+            svg_root.remove(element)
+        svg_root.append(svg_group)
+
         if crown:
-            return SVGBuilder.add_group_with_transform(parent, "translate(172, 230)", shield_root)
-        return SVGBuilder.add_group_with_transform(parent, "translate(172, 205)", shield_root)
+            return SVGBuilder.add_group_with_transform(parent, "translate(172, 230)", svg_root)
+        return SVGBuilder.add_group_with_transform(parent, "translate(172, 205)", svg_root)
     
     @staticmethod
     def add_laurels(parent, laurels_path):
@@ -195,3 +211,42 @@ class SVGBuilder:
         laurels_tree = ET.parse(laurels_path)
         laurels_root = laurels_tree.getroot()
         return SVGBuilder.add_group_with_transform(parent, "translate(31, 60) scale(0.615)", laurels_root)
+
+    @staticmethod
+    def add_center_lines(parent, width, height, color="red", stroke_width=1):
+        """
+        Adds vertical and horizontal lines at the center of the SVG.
+
+        Args:
+            parent (ET.Element): Parent SVG element.
+            width (int): Width of the SVG.
+            height (int): Height of the SVG.
+            color (str, optional): Color of the lines (default: "red").
+            stroke_width (int, optional): Width of the lines (default: 1).
+
+        Returns:
+            ET.Element: Updated parent element.
+        """
+        # Vertical line
+        vertical_line = ET.Element("line", attrib={
+            "x1": str(width / 2),
+            "y1": "0",
+            "x2": str(width / 2),
+            "y2": str(height),
+            "stroke": color,
+            "stroke-width": str(stroke_width)
+        })
+        parent.append(vertical_line)
+
+        # Horizontal line
+        horizontal_line = ET.Element("line", attrib={
+            "x1": "0",
+            "y1": str(height / 2),
+            "x2": str(width),
+            "y2": str(height / 2),
+            "stroke": color,
+            "stroke-width": str(stroke_width)
+        })
+        parent.append(horizontal_line)
+
+        return parent

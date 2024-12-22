@@ -21,20 +21,6 @@ def create_coat_of_arms(output_file, shield_path):
     shield_tree = ET.parse(shield_path)
     shield_root = shield_tree.getroot()
 
-    # Ensure the shield SVG has a proper viewBox
-    utils.ensure_viewbox(shield_root)
-
-    # Fix scale issues
-    scale = utils.scale_svg(shield_root, (512, 512))
-    # print(f"Calculated scale for shield: {scale}")
-
-    # Wrap the shield elements in a <g> tag with scale transformation
-    shield_group = ET.Element("g", {"transform": f"scale({scale})"})
-    for element in list(shield_root):  # Use list to avoid modifying the root during iteration
-        shield_group.append(element)
-        shield_root.remove(element)
-    shield_root.append(shield_group)
-
     # Create the SVG element
     svg_element = svgbuilder.SVGBuilder.create_svg(800, 800)
     for element in shield_root:
@@ -63,7 +49,7 @@ def create_coat_of_arms(output_file, shield_path):
     utils.write_clean_svg(tree, output_file)
 
 
-def create_coin(output_file, single_svg_path, crown_path, laurels_path):
+def create_coin(output_file, single_svg_path, crown_path, laurels_path, debug=False):
     """
     Creates a complete SVG coin borders, a central icon or coat of arms, crown, and text or laurels at the sides.
 
@@ -95,6 +81,9 @@ def create_coin(output_file, single_svg_path, crown_path, laurels_path):
         svgbuilder.SVGBuilder.add_textpath_circle(svg_element, 320, 425, "circlePath")
         svgbuilder.SVGBuilder.add_text_on_circle(svg_element, 56, "DARK ▾ VADA", "circlePath")
         svgbuilder.SVGBuilder.add_text_on_circle(svg_element, 10, "VADA ▾ COIN", "circlePath")
+
+    if debug:
+        svgbuilder.SVGBuilder.add_center_lines(svg_element, 850, 850)
 
     tree = ET.ElementTree(svg_element)
     utils.write_clean_svg(tree, output_file)
