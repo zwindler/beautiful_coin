@@ -115,6 +115,8 @@
                     <option value="svg/icon6.svg">Turned Lego brick</option>
                 </select>
             </div>
+            <label for="debug">Enable Debug:</label>
+            <input type="checkbox" id="debug" name="debug">
         </form>
     </div>
     <div id="right">
@@ -132,16 +134,16 @@
             button.addEventListener('click', () => {
                 const content = button.nextElementSibling;
                 if (content.style.display === 'block' || content.style.display === '') {
-                    content.style.display = 'none'; // Collapse content
+                    content.style.display = 'none';
                 } else {
-                    content.style.display = 'block'; // Expand content
+                    content.style.display = 'block';
                 }
             });
         });
 
-        // Function to fetch generated SVGs
+        // Fetch generated SVGs
         async function fetchGeneratedCoin() {
-            const formData = new FormData(form); // Capture current form data
+            const formData = new FormData(form);
             try {
                 const response = await fetch('/generate', {
                     method: 'POST',
@@ -150,14 +152,11 @@
 
                 if (response.ok) {
                     const data = await response.json();
-                    // Display both SVGs
                     output.innerHTML = `
                         <div>
-                            <h3>Heads</h3>
                             <div>${data.heads}</div>
                         </div>
                         <div>
-                            <h3>Tails</h3>
                             <div>${data.tails}</div>
                         </div>
                     `;

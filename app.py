@@ -17,6 +17,9 @@ def generate():
     tails_crown_path = request.form["crown-tails"]
     tails_shield_path = request.form["shield-tails"]
     tails_laurels_path = request.form["sides-tails"]
+    debug = request.form.get("debug", False)
+    is_debug = debug == "on"
+
 
     # Paths for output files
     heads_svg = "output/coin-heads.svg"
@@ -24,10 +27,10 @@ def generate():
     coat_of_arms_path = "output/coat_of_arms.svg"
 
     # Heads always have a single SVG as "head"
-    elements.create_coin(heads_svg, heads_icon_path, heads_crown_path, heads_laurels_path, True)
+    elements.create_coin(heads_svg, heads_icon_path, heads_crown_path, heads_laurels_path, is_debug)
     # Tails always have a coat_of_arms
     elements.create_coat_of_arms(coat_of_arms_path, tails_shield_path)
-    elements.create_coin(tails_svg, coat_of_arms_path, tails_crown_path, tails_laurels_path, True)
+    elements.create_coin(tails_svg, coat_of_arms_path, tails_crown_path, tails_laurels_path, is_debug)
 
     with open(heads_svg, "r") as f:
         heads_svg_content = f.read()
