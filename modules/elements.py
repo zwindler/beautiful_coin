@@ -201,7 +201,7 @@ class SVGBuilder:
         """
         laurels_tree = ET.parse(laurels_path)
         laurels_root = laurels_tree.getroot()
-        return SVGBuilder.add_group_with_transform(parent, "translate(30, 57) scale(0.615)", laurels_root)
+        return SVGBuilder.add_group_with_transform(parent, "translate(34, 62) scale(0.61)", laurels_root)
 
 
 def write_clean_svg(tree, output_file):
@@ -288,7 +288,7 @@ def create_coin(output_file, coat_of_arms_path, crown_path, laurels_path):
 
     # Add concentric circles to materialize the coin
     SVGBuilder.add_circle(svg_element, 420, 425, "black")
-    SVGBuilder.add_circle(svg_element, 405, 425, "#444444")
+    SVGBuilder.add_circle(svg_element, 400, 425, "#444444")
 
     # Add coat of arms with a crown on top (or not)
     if crown_path != "none":
