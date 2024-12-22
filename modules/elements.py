@@ -25,7 +25,7 @@ def create_coat_of_arms(output_file, shield_path):
     utils.ensure_viewbox(shield_root)
 
     # Fix scale issues
-    scale = utils.scale_svg(shield_root, (650, 650))
+    scale = utils.scale_svg(shield_root, (512, 512))
     # print(f"Calculated scale for shield: {scale}")
 
     # Wrap the shield elements in a <g> tag with scale transformation
@@ -41,11 +41,11 @@ def create_coat_of_arms(output_file, shield_path):
         svg_element.append(element)
 
     # Positions and target size for icons
-    positions = [(145, 150),
-                 (350, 150),
-                 (145, 350),
-                 (350, 350)]
-    target_size = (150, 150)
+    positions = [(80, 60),
+                 (285, 60),
+                 (80, 260),
+                 (285, 260)]
+    target_size = (145, 145)
 
     for pos, icon_file in zip(positions, icon_paths):
         icon_tree = ET.parse(icon_file)
