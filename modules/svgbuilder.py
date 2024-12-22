@@ -159,7 +159,7 @@ class SVGBuilder:
         """
         crown_tree = ET.parse(crown_path)
         crown_root = crown_tree.getroot()
-        return SVGBuilder.add_group_with_transform(parent, "translate(260, -45) scale(2.5)", crown_root)
+        return SVGBuilder.add_group_with_transform(parent, "translate(260, -40) scale(2.5)", crown_root)
 
     @staticmethod
     def add_coat_of_arms(parent, coat_of_arms_path, crown):
@@ -177,8 +177,8 @@ class SVGBuilder:
         shield_tree = ET.parse(coat_of_arms_path)
         shield_root = shield_tree.getroot()
         if crown:
-            return SVGBuilder.add_group_with_transform(parent, "translate(105, 140)", shield_root)
-        return SVGBuilder.add_group_with_transform(parent, "translate(105, 115)", shield_root)
+            return SVGBuilder.add_group_with_transform(parent, "translate(105, 135)", shield_root)
+        return SVGBuilder.add_group_with_transform(parent, "translate(105, 110)", shield_root)
     
     @staticmethod
     def add_laurels(parent, laurels_path):
