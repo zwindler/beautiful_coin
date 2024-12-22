@@ -79,8 +79,8 @@ def create_coin(output_file, single_svg_path, crown_path, laurels_path, debug=Fa
     else:
         # Add circular text around a textPath, inside the coin
         svgbuilder.SVGBuilder.add_textpath_circle(svg_element, 320, 425, "circlePath")
-        svgbuilder.SVGBuilder.add_text_on_circle(svg_element, 56, "DARK ▾ VADA", "circlePath")
-        svgbuilder.SVGBuilder.add_text_on_circle(svg_element, 10, "VADA ▾ COIN", "circlePath")
+        svgbuilder.SVGBuilder.add_text_on_circle(svg_element, 58, "DARK ▾ VADA", "circlePath")
+        svgbuilder.SVGBuilder.add_text_on_circle(svg_element, 8.58, "VADA ▾ COIN", "circlePath")
 
     if debug:
         svgbuilder.SVGBuilder.add_center_lines(svg_element, 850, 850)

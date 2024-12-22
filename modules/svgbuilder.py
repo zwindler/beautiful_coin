@@ -215,7 +215,7 @@ class SVGBuilder:
     @staticmethod
     def add_center_lines(parent, width, height, color="red", stroke_width=1):
         """
-        Adds vertical and horizontal lines at the center of the SVG.
+        Adds vertical and horizontal lines at the center of the SVG for debug.
 
         Args:
             parent (ET.Element): Parent SVG element.
