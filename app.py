@@ -27,10 +27,10 @@ def generate():
     coat_of_arms_path = "output/coat_of_arms.svg"
 
     # Heads always have a single SVG as "head"
-    elements.create_coin(heads_svg, heads_icon_path, heads_crown_path, heads_laurels_path, is_debug)
-    # Tails always have a coat_of_arms
+    elements.create_coin(heads_svg, heads_icon_path, heads_crown_path, heads_laurels_path, False, is_debug)
+    # Tails always have a coat_of_arms (which is already scaled)
     elements.create_coat_of_arms(coat_of_arms_path, tails_shield_path)
-    elements.create_coin(tails_svg, coat_of_arms_path, tails_crown_path, tails_laurels_path, is_debug)
+    elements.create_coin(tails_svg, coat_of_arms_path, tails_crown_path, tails_laurels_path, True, is_debug)
 
     with open(heads_svg, "r") as f:
         heads_svg_content = f.read()

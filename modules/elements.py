@@ -18,13 +18,22 @@ def create_coat_of_arms(output_file, shield_path):
         output_file (str): Path to the output SVG file.
         shield_path (str): Path to the shield SVG file.
     """
-    shield_tree = ET.parse(shield_path)
-    shield_root = shield_tree.getroot()
+    svg_tree = ET.parse(shield_path)
+    svg_root = svg_tree.getroot()
 
-    # Create the SVG element
-    svg_element = svgbuilder.SVGBuilder.create_svg(800, 800)
-    for element in shield_root:
-        svg_element.append(element)
+    # Ensure the svg SVG has a proper viewBox
+    utils.ensure_viewbox(svg_root)
+
+    # Fix scale issues
+    scale = utils.scale_svg(svg_root, (512, 512))
+    print(f"Calculated scale for svg: {scale}")
+
+    # Wrap the svg elements in a <g> tag with scale transformation
+    svg_group = ET.Element("g", {"transform": f"scale({scale})"})
+    for element in list(svg_root):  # Use list to avoid modifying the root during iteration
+        svg_group.append(element)
+        svg_root.remove(element)
+    svg_root.append(svg_group)
 
     # Positions and target size for icons
     positions = [(80, 60),
@@ -42,20 +51,24 @@ def create_coat_of_arms(output_file, shield_path):
         # print(f"Calculated scale for icon {icon_file}: {scale}")
 
         # Create a group for each icon and append it
-        svgbuilder.SVGBuilder.add_group_with_transform(svg_element, f"translate({pos[0]},{pos[1]}) scale({scale})", icon_root)
+        svgbuilder.SVGBuilder.add_group_with_transform(svg_root, f"translate({pos[0]},{pos[1]}) scale({scale})", icon_root)
 
     # Write the final SVG
-    tree = ET.ElementTree(svg_element)
+    tree = ET.ElementTree(svg_root)
     utils.write_clean_svg(tree, output_file)
 
 
-def create_coin(output_file, single_svg_path, crown_path, laurels_path, debug=False):
+def create_coin(output_file, single_svg_path, crown_path, laurels_path, already_scaled=False, debug=False):
     """
     Creates a complete SVG coin borders, a central icon or coat of arms, crown, and text or laurels at the sides.
 
     Args:
         output_file (str): Path to the output SVG file.
-        shield_file (str): Path to the central SVG file.
+        single_svg_path (str): Path to the central SVG file.
+        crown_path (str): path for the crown SVG file, "none" is no crown.
+        laurels_path (str): path for the laurels SVG file, "none" is no laurels (and replaced by text).
+        already_scaled (bool): is the central SVG file already scaled properly.
+        debug (bool): enable / disable debug.
     """
     svg_element = svgbuilder.SVGBuilder.create_svg(850, 850, "0 0 850 850")
 
@@ -68,10 +81,10 @@ def create_coin(output_file, single_svg_path, crown_path, laurels_path, debug=Fa
 
     # Add coat of arms with a crown on top (or not)
     if crown_path != "none":
-        svgbuilder.SVGBuilder.add_single_svg(svg_element, single_svg_path, True)
+        svgbuilder.SVGBuilder.add_single_svg(svg_element, single_svg_path, already_scaled, True)
         svgbuilder.SVGBuilder.add_crown(svg_element, crown_path)
     else:
-        svgbuilder.SVGBuilder.add_single_svg(svg_element, single_svg_path, False)
+        svgbuilder.SVGBuilder.add_single_svg(svg_element, single_svg_path, already_scaled, False)
 
     # Add laurels OR text
     if laurels_path != "none":

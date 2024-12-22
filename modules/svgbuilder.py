@@ -163,13 +163,14 @@ class SVGBuilder:
         return SVGBuilder.add_group_with_transform(parent, "translate(262, -15) scale(2.4)", crown_root)
 
     @staticmethod
-    def add_single_svg(parent, single_svg_path, crown):
+    def add_single_svg(parent, single_svg_path, already_scaled, crown):
         """
         Adds a coat of arms to an SVG element.
 
         Args:
             parent (ET.Element): Parent SVG element.
             single_svg_path (str): Path to the SVG file.
+            already_scaled (bool): is SVG already scaled or not.
             crown (bool): add a crown or not
 
         Returns:
@@ -181,9 +182,12 @@ class SVGBuilder:
         # Ensure the svg SVG has a proper viewBox
         utils.ensure_viewbox(svg_root)
 
-        # Fix scale issues
-        scale = utils.scale_svg(svg_root, (512, 512))
-        print(f"Calculated scale for svg: {scale}")
+        if already_scaled:
+            scale = 1
+        else:
+            # Fix scale issues
+            scale = utils.scale_svg(svg_root, (512, 512))
+            print(f"Calculated scale for svg: {scale}")
 
         # Wrap the svg elements in a <g> tag with scale transformation
         svg_group = ET.Element("g", {"transform": f"scale({scale})"})
