@@ -63,13 +63,13 @@ def create_coat_of_arms(output_file, shield_path):
     utils.write_clean_svg(tree, output_file)
 
 
-def create_coin(output_file, coat_of_arms_path, crown_path, laurels_path):
+def create_coin(output_file, single_svg_path, crown_path, laurels_path):
     """
-    Creates a complete SVG coin with concentric circles, coat of arms, crown, and text.
+    Creates a complete SVG coin borders, a central icon or coat of arms, crown, and text or laurels at the sides.
 
     Args:
         output_file (str): Path to the output SVG file.
-        shield_file (str): Path to the coat of arms SVG file.
+        shield_file (str): Path to the central SVG file.
     """
     svg_element = svgbuilder.SVGBuilder.create_svg(850, 850, "0 0 850 850")
 
@@ -82,10 +82,10 @@ def create_coin(output_file, coat_of_arms_path, crown_path, laurels_path):
 
     # Add coat of arms with a crown on top (or not)
     if crown_path != "none":
-        svgbuilder.SVGBuilder.add_coat_of_arms(svg_element, coat_of_arms_path, True)
+        svgbuilder.SVGBuilder.add_single_svg(svg_element, single_svg_path, True)
         svgbuilder.SVGBuilder.add_crown(svg_element, crown_path)
     else:
-        svgbuilder.SVGBuilder.add_coat_of_arms(svg_element, coat_of_arms_path, False)
+        svgbuilder.SVGBuilder.add_single_svg(svg_element, single_svg_path, False)
 
     # Add laurels OR text
     if laurels_path != "none":

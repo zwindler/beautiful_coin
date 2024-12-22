@@ -162,19 +162,19 @@ class SVGBuilder:
         return SVGBuilder.add_group_with_transform(parent, "translate(260, -40) scale(2.5)", crown_root)
 
     @staticmethod
-    def add_coat_of_arms(parent, coat_of_arms_path, crown):
+    def add_single_svg(parent, single_svg_path, crown):
         """
         Adds a coat of arms to an SVG element.
 
         Args:
             parent (ET.Element): Parent SVG element.
-            coat_of_arms_path (str): Path to the coat of arms SVG file.
+            single_svg_path (str): Path to the SVG file.
             crown (bool): add a crown or not
 
         Returns:
             ET.Element: Updated parent element.
         """
-        shield_tree = ET.parse(coat_of_arms_path)
+        shield_tree = ET.parse(single_svg_path)
         shield_root = shield_tree.getroot()
         if crown:
             return SVGBuilder.add_group_with_transform(parent, "translate(105, 135)", shield_root)
