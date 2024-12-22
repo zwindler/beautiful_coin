@@ -160,7 +160,7 @@ class SVGBuilder:
         """
         crown_tree = ET.parse(crown_path)
         crown_root = crown_tree.getroot()
-        return SVGBuilder.add_group_with_transform(parent, "translate(263, -15) scale(2.4)", crown_root)
+        return SVGBuilder.add_group_with_transform(parent, "translate(262, -15) scale(2.4)", crown_root)
 
     @staticmethod
     def add_single_svg(parent, single_svg_path, crown):
@@ -193,8 +193,8 @@ class SVGBuilder:
         svg_root.append(svg_group)
 
         if crown:
-            return SVGBuilder.add_group_with_transform(parent, "translate(172, 230)", svg_root)
-        return SVGBuilder.add_group_with_transform(parent, "translate(172, 205)", svg_root)
+            return SVGBuilder.add_group_with_transform(parent, "translate(169, 230)", svg_root)
+        return SVGBuilder.add_group_with_transform(parent, "translate(169, 190)", svg_root)
     
     @staticmethod
     def add_laurels(parent, laurels_path):
