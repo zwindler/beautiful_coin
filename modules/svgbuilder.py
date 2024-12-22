@@ -158,9 +158,24 @@ class SVGBuilder:
         Returns:
             ET.Element: Updated parent element.
         """
-        crown_tree = ET.parse(crown_path)
-        crown_root = crown_tree.getroot()
-        return SVGBuilder.add_group_with_transform(parent, "translate(262, -15) scale(2.4)", crown_root)
+        svg_tree = ET.parse(crown_path)
+        svg_root = svg_tree.getroot()
+
+        # Ensure the svg SVG has a proper viewBox
+        utils.ensure_viewbox(svg_root)
+
+        # Fix scale issues
+        scale = utils.scale_svg(svg_root, (320, 320))
+        print(f"Calculated scale for crown: {scale}")
+
+        # Wrap the svg elements in a <g> tag with scale transformation
+        svg_group = ET.Element("g", {"transform": f"scale({scale})"})
+        for element in list(svg_root):  # Use list to avoid modifying the root during iteration
+            svg_group.append(element)
+            svg_root.remove(element)
+        svg_root.append(svg_group)
+
+        return SVGBuilder.add_group_with_transform(parent, "translate(264, -10)", svg_root)
 
     @staticmethod
     def add_single_svg(parent, single_svg_path, already_scaled, crown):
@@ -187,7 +202,7 @@ class SVGBuilder:
         else:
             # Fix scale issues
             scale = utils.scale_svg(svg_root, (512, 512))
-            print(f"Calculated scale for svg: {scale}")
+            print(f"Calculated scale for svg {single_svg_path}: {scale}")
 
         # Wrap the svg elements in a <g> tag with scale transformation
         svg_group = ET.Element("g", {"transform": f"scale({scale})"})
