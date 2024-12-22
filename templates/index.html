@@ -40,7 +40,7 @@
             background-color: #45a049;
         }
         .content {
-            display: none;
+            display: block;
             padding: 10px;
             margin-top: 5px;
             background-color: #f9f9f9;
@@ -70,19 +70,19 @@
                 <select name="crown" id="crown">
                     <option value="none">None</option>
                     <option value="svg/crown1.svg">Crown 1</option>
-                    <option value="svg/crown2.svg">Crown 2</option>
+                    <option value="svg/crown2.svg" selected="selected">Crown 2</option>
                     <option value="svg/crown3.svg">Crown 3</option>
                 </select>
                 <label for="icon-heads">Choose an icon for heads:</label>
                 <select name="icon-heads" id="icon-heads">
                     <option value="svg/icon7.svg">3D printer 1</option>
                     <option value="svg/icon8.svg">3D printer 2</option>
-                    <option value="svg/icon9.svg">Skull 1</option>
+                    <option value="svg/icon9.svg" selected="selected">Skull 1</option>
                 </select>
                 <label for="sides-heads">Choose text or laurels</label>
                 <select name="sides-heads" id="sides-heads">
                     <option value="none">Text</option>
-                    <option value="svg/laurels1.svg">Laurels</option>
+                    <option value="svg/laurels1.svg" selected="selected">Laurels</option>
                 </select>
             </div>
             <button type="button" class="collapsible">Tails (collapse/expand)</button>
@@ -90,19 +90,19 @@
                 <label for="shield-tails">Choose a shield:</label>
                 <select name="shield-tails" id="shield-tails">
                     <option value="svg/shield1.svg">Shield 1</option>
-                    <option value="svg/shield2.svg">Shield 2</option>
+                    <option value="svg/shield2.svg" selected="selected">Shield 2</option>
                     <option value="svg/shield3.svg">Shield 3</option>
                 </select>
                 <label for="crown-tails">Choose a crown:</label>
                 <select name="crown-tails" id="crown-tails">
                     <option value="none">None</option>
                     <option value="svg/crown1.svg">Crown 1</option>
-                    <option value="svg/crown2.svg">Crown 2</option>
+                    <option value="svg/crown2.svg" selected="selected">Crown 2</option>
                     <option value="svg/crown3.svg">Crown 3</option>
                 </select>
                 <label for="sides-tails">Choose text or laurels</label>
                 <select name="sides-tails" id="sides-tails">
-                    <option value="none">Text</option>
+                    <option value="none" selected="selected">Text</option>
                     <option value="svg/laurels1.svg">Laurels</option>
                 </select>
                 <label for="upperleft-tails">Choose upper left icon:</label>
@@ -123,41 +123,57 @@
         </div>
     </div>
     <script>
+        // Fetch the form and output elements
+        const form = document.getElementById('generator-form');
+        const output = document.getElementById('output');
+
         // Toggle collapsible sections
         document.querySelectorAll('.collapsible').forEach(button => {
             button.addEventListener('click', () => {
                 const content = button.nextElementSibling;
-                content.classList.toggle('open');
+                if (content.style.display === 'block' || content.style.display === '') {
+                    content.style.display = 'none'; // Collapse content
+                } else {
+                    content.style.display = 'block'; // Expand content
+                }
             });
         });
 
-        // Trigger SVG generation on form changes
-        const form = document.getElementById('generator-form');
-        const output = document.getElementById('output');
+        // Function to fetch generated SVGs
+        async function fetchGeneratedCoin() {
+            const formData = new FormData(form); // Capture current form data
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    body: formData,
+                });
 
-        form.addEventListener('change', async () => {
-            const formData = new FormData(form);
-            const response = await fetch('/generate', {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                output.innerHTML = `
-                    <div>
-                        <h3>Heads</h3>
-                        <div>${data.heads}</div>
-                    </div>
-                    <div>
-                        <h3>Tails</h3>
-                        <div>${data.tails}</div>
-                    </div>
-                `;
-            } else {
-                output.innerHTML = `<p>Error generating SVGs. Please try again.</p>`;
+                if (response.ok) {
+                    const data = await response.json();
+                    // Display both SVGs
+                    output.innerHTML = `
+                        <div>
+                            <h3>Heads</h3>
+                            <div>${data.heads}</div>
+                        </div>
+                        <div>
+                            <h3>Tails</h3>
+                            <div>${data.tails}</div>
+                        </div>
+                    `;
+                } else {
+                    output.innerHTML = `<p>Error generating SVGs. Please try again.</p>`;
+                }
+            } catch (error) {
+                output.innerHTML = `<p>Error connecting to the server. Please try again.</p>`;
             }
-        });
+        }
+
+        // Trigger the generation on page load
+        document.addEventListener('DOMContentLoaded', fetchGeneratedCoin);
+
+        // Trigger the generation on form changes
+        form.addEventListener('change', fetchGeneratedCoin);
     </script>
 </body>
 </html>
