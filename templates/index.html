@@ -10,19 +10,21 @@
             margin: 0;
             font-family: Arial, sans-serif;
         }
-        #left, #right {
-            flex: 1;
+        #left {
+            flex: 2; /* Increase the width of the left column */
             padding: 20px;
             box-sizing: border-box;
-        }
-        #left {
             background-color: #f4f4f4;
             border-right: 1px solid #ccc;
         }
         #right {
+            flex: 1; /* Keep the right column narrower */
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
         .collapsible {
             background-color: #4CAF50;
@@ -50,6 +52,14 @@
         .content.open {
             display: block;
         }
+        .coin-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 50%;
+            width: 100%;
+            box-sizing: border-box;
+        }
         select, input {
             width: 100%;
             padding: 10px;
@@ -58,6 +68,8 @@
         svg {
             max-width: 100%;
             max-height: 100%;
+            height: auto;
+            width: auto;
         }
     </style>
 </head>
@@ -153,10 +165,10 @@
                 if (response.ok) {
                     const data = await response.json();
                     output.innerHTML = `
-                        <div>
+                        <div class="coin-container">
                             <div>${data.heads}</div>
                         </div>
-                        <div>
+                        <div class="coin-container">
                             <div>${data.tails}</div>
                         </div>
                     `;
