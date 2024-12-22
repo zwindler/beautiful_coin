@@ -10,22 +10,6 @@ icon_paths = [
 ]
 shield_path = "svg/shield1.svg"
 
-def write_clean_svg(tree, output_file):
-    """
-    Writes an SVG tree to a file without namespace prefixes.
-
-    Args:
-        tree (ET.ElementTree): The SVG element tree.
-        output_file (str): Path to the output SVG file.
-    """
-    # Convert the ElementTree to a string
-    rough_string = ET.tostring(tree.getroot(), encoding="unicode")
-    # Remove the namespaces
-    clean_string = svgbuilder.SVGBuilder.remove_namespace(rough_string)
-    # Write the clean string to the output file
-    with open(output_file, "w", encoding="utf-8") as f:
-        f.write(clean_string)
-
 def create_coat_of_arms(output_file, shield_path):
     """
     Creates a coat of arms SVG by overlaying a shield and placing icons in fixed positions.
@@ -76,7 +60,7 @@ def create_coat_of_arms(output_file, shield_path):
 
     # Write the final SVG
     tree = ET.ElementTree(svg_element)
-    write_clean_svg(tree, output_file)
+    utils.write_clean_svg(tree, output_file)
 
 
 def create_coin(output_file, coat_of_arms_path, crown_path, laurels_path):
@@ -113,4 +97,4 @@ def create_coin(output_file, coat_of_arms_path, crown_path, laurels_path):
         svgbuilder.SVGBuilder.add_text_on_circle(svg_element, 10, "VADA ▾ COIN", "circlePath")
 
     tree = ET.ElementTree(svg_element)
-    write_clean_svg(tree, output_file)
+    utils.write_clean_svg(tree, output_file)

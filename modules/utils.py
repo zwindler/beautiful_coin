@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+import modules.svgbuilder as svgbuilder
 import re
 
 def ensure_viewbox(svg_element):
@@ -48,3 +49,19 @@ def add_white_background(parent):
     })
     parent.append(background)
     return 
+
+def write_clean_svg(tree, output_file):
+    """
+    Writes an SVG tree to a file without namespace prefixes.
+
+    Args:
+        tree (ET.ElementTree): The SVG element tree.
+        output_file (str): Path to the output SVG file.
+    """
+    # Convert the ElementTree to a string
+    rough_string = ET.tostring(tree.getroot(), encoding="unicode")
+    # Remove the namespaces
+    clean_string = svgbuilder.SVGBuilder.remove_namespace(rough_string)
+    # Write the clean string to the output file
+    with open(output_file, "w", encoding="utf-8") as f:
+        f.write(clean_string)
