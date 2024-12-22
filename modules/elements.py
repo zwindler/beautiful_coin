@@ -77,7 +77,7 @@ def create_coin(output_file, single_svg_path, crown_path, laurels_path, already_
 
     # Add concentric circles to materialize the coin
     svgbuilder.SVGBuilder.add_circle(svg_element, 420, 425, "black")
-    svgbuilder.SVGBuilder.add_circle(svg_element, 400, 425, "#444444")
+    svgbuilder.SVGBuilder.add_circle(svg_element, 400, 425, "#555555")
 
     # Add coat of arms with a crown on top (or not)
     if crown_path != "none":
