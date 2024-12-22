@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beautiful coin generator</title>
+    <title>Beautiful Coin Generator</title>
     <style>
         body {
             display: flex;
@@ -24,21 +24,33 @@
             justify-content: center;
             align-items: center;
         }
-        button {
-            display: block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
+        .collapsible {
             background-color: #4CAF50;
             color: white;
+            cursor: pointer;
+            padding: 10px;
             border: none;
             border-radius: 4px;
+            text-align: left;
+            font-size: 16px;
+            margin-top: 10px;
+            width: 100%;
         }
-        button:hover {
+        .collapsible:hover {
             background-color: #45a049;
         }
-        select {
+        .content {
+            display: none;
+            padding: 10px;
+            margin-top: 5px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .content.open {
+            display: block;
+        }
+        select, input {
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
@@ -52,59 +64,96 @@
 <body>
     <div id="left">
         <form id="generator-form">
-            <h2>Coat of Arms</h2>
-            <label for="shield">Choose a shield:</label>
-            <select name="shield" id="shield">
-                <option value="svg/shield1.svg">Shield 1</option>
-                <option value="svg/shield2.svg">Shield 2</option>
-                <option value="svg/shield3.svg">Shield 3</option>
-            </select>
-            <label for="upperleft">Choose upper left icon:</label>
-            <select name="upperleft" id="upperleft">
-                <option value="svg/icon1.svg">Lego brick</option>
-                <option value="svg/icon2.svg">Diamond</option>
-                <option value="svg/icon3.svg">Speeding truck</option>
-                <option value="svg/icon4.svg">Horse</option>
-                <option value="svg/icon5.svg">Truck</option>
-                <option value="svg/icon6.svg">Turned Lego brick</option>
-            </select>     
-            <h2>Crown</h2>
-            <label for="crown">Choose a crown:</label>
-            <select name="crown" id="crown">
-                <option value="svg/crown1.svg">Crown 1</option>
-                <option value="svg/crown2.svg">Crown 2</option>
-                <option value="svg/crown3.svg">Crown 3</option>
-                <option value="none">None</option>
-            </select>
-            <h2>Sides</h2>
-            <select name="sides" id="sides">
-                <option value="svg/laurels1.svg">Laurels</option>
-                <option value="none">Text</option>
-            </select>
-            <button type="submit">Generate</button>
+            <button type="button" class="collapsible">Heads (collapse/expand)</button>
+            <div class="content">
+                <label for="crown-heads">Choose a crown:</label>
+                <select name="crown" id="crown">
+                    <option value="none">None</option>
+                    <option value="svg/crown1.svg">Crown 1</option>
+                    <option value="svg/crown2.svg">Crown 2</option>
+                    <option value="svg/crown3.svg">Crown 3</option>
+                </select>
+                <label for="icon-heads">Choose an icon for heads:</label>
+                <select name="icon-heads" id="icon-heads">
+                    <option value="svg/icon7.svg">3D printer</option>
+                </select>
+                <label for="sides-heads">Choose text or laurels</label>
+                <select name="sides-heads" id="sides-heads">
+                    <option value="none">Text</option>
+                    <option value="svg/laurels1.svg">Laurels</option>
+                </select>
+            </div>
+            <button type="button" class="collapsible">Tails (collapse/expand)</button>
+            <div class="content">
+                <label for="shield-tails">Choose a shield:</label>
+                <select name="shield-tails" id="shield-tails">
+                    <option value="svg/shield1.svg">Shield 1</option>
+                    <option value="svg/shield2.svg">Shield 2</option>
+                    <option value="svg/shield3.svg">Shield 3</option>
+                </select>
+                <label for="crown-tails">Choose a crown:</label>
+                <select name="crown-tails" id="crown-tails">
+                    <option value="none">None</option>
+                    <option value="svg/crown1.svg">Crown 1</option>
+                    <option value="svg/crown2.svg">Crown 2</option>
+                    <option value="svg/crown3.svg">Crown 3</option>
+                </select>
+                <label for="sides-tails">Choose text or laurels</label>
+                <select name="sides-tails" id="sides-tails">
+                    <option value="none">Text</option>
+                    <option value="svg/laurels1.svg">Laurels</option>
+                </select>
+                <label for="upperleft-tails">Choose upper left icon:</label>
+                <select name="upperleft-tails" id="upperleft-tails">
+                    <option value="svg/icon1.svg">Lego brick</option>
+                    <option value="svg/icon2.svg">Diamond</option>
+                    <option value="svg/icon3.svg">Speeding truck</option>
+                    <option value="svg/icon4.svg">Horse</option>
+                    <option value="svg/icon5.svg">Truck</option>
+                    <option value="svg/icon6.svg">Turned Lego brick</option>
+                </select>
+            </div>
         </form>
     </div>
     <div id="right">
         <div id="output">
-            <p>Generated SVG will appear here.</p>
+            <p>Generated SVGs will appear here.</p>
         </div>
     </div>
     <script>
+        // Toggle collapsible sections
+        document.querySelectorAll('.collapsible').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                content.classList.toggle('open');
+            });
+        });
+
+        // Trigger SVG generation on form changes
         const form = document.getElementById('generator-form');
         const output = document.getElementById('output');
 
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
+        form.addEventListener('change', async () => {
             const formData = new FormData(form);
             const response = await fetch('/generate', {
                 method: 'POST',
                 body: formData,
             });
+
             if (response.ok) {
-                const svgContent = await response.text();
-                output.innerHTML = svgContent;
+                const data = await response.json();
+                output.innerHTML = `
+                    <div>
+                        <h3>Heads</h3>
+                        <div>${data.heads}</div>
+                    </div>
+                    <div>
+                        <h3>Tails</h3>
+                        <div>${data.tails}</div>
+                    </div>
+                `;
             } else {
-                output.innerHTML = `<p>Error generating SVG. Please try again.</p>`;
+                output.innerHTML = `<p>Error generating SVGs. Please try again.</p>`;
             }
         });
     </script>
