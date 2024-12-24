@@ -11,7 +11,7 @@ def index():
 @app.route("/generate", methods=["POST"])
 def generate():
     """Generate coat of arms and coin based on selection in UI."""
-    heads_crown_path = request.form["crown"]
+    heads_crown_path = request.form["crown-heads"]
     heads_icon_path = request.form["icon-heads"]
     heads_laurels_path = request.form["sides-heads"]
     tails_crown_path = request.form["crown-tails"]

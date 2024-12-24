@@ -11,31 +11,71 @@
         <form id="generator-form">
             <button type="button" class="collapsible">Heads (collapse/expand)</button>
             <div class="content">
-                <label for="crown-heads">Choose a crown:</label>
-                <div id="crown-options">
+                <label for="crown-heads-options">Choose crown (or none):</label>
+                <div class="icon-options" id="crown-heads-options">
                     <label>
-                        <input type="radio" name="crown" value="none" checked>
+                        <input type="radio" name="crown-heads" value="none" checked>
+                        <img src="static/none.svg" alt="None">
                     </label>
                     <label>
-                        <input type="radio" name="crown" value="static/crown1.svg">
-                        <img src="static/crown1.svg" alt="Crown 1" width="50">
+                        <input type="radio" name="crown-heads" value="static/crown1.svg">
+                        <img src="static/crown1.svg" alt="Crown 1">
                     </label>
                     <label>
-                        <input type="radio" name="crown" value="static/crown2.svg">
-                        <img src="static/crown2.svg" alt="Crown 2" width="50">
+                        <input type="radio" name="crown-heads" value="static/crown2.svg">
+                        <img src="static/crown2.svg" alt="Crown 2">
                     </label>
                     <label>
-                        <input type="radio" name="crown" value="static/crown3.svg">
-                        <img src="static/crown3.svg" alt="Crown 3" width="50">
+                        <input type="radio" name="crown-heads" value="static/crown3.svg">
+                        <img src="static/crown3.svg" alt="Crown 3">
                     </label>
                 </div>
                 <label for="icon-heads">Choose an icon for heads:</label>
-                <select name="icon-heads" id="icon-heads">
-                    <option value="static/icon7.svg">3D printer 1</option>
-                    <option value="static/icon8.svg">3D printer 2</option>
-                    <option value="static/icon9.svg" selected="selected">Skull 1</option>
-                    <option value="static/icon10.svg">Skull 2</option>
-                </select>
+                <div class="icon-options" id="icon-heads-options">
+                    <label>
+                        <input type="radio" name="icon-heads" value="static/icon7.svg">
+                        <img src="static/icon7.svg" alt="3D printer 1">
+                    </label>
+                    <label>
+                        <input type="radio" name="icon-heads" value="static/icon8.svg">
+                        <img src="static/icon8.svg" alt="3D printer 2">
+                    </label>
+                    <label>
+                        <input type="radio" name="icon-heads" value="static/icon9.svg" checked>
+                        <img src="static/icon9.svg" alt="Skull 1">
+                    </label>
+                    <label>
+                        <input type="radio" name="icon-heads" value="static/icon10.svg">
+                        <img src="static/icon10.svg" alt="Skull 2">
+                    </label>
+                </div>
+                <label for="upperleft-tails">Choose upper left icon:</label>
+                <div class="icon-options" id="upperleft-tails-options">
+                    <label>
+                        <input type="radio" name="upperleft-tails" value="static/icon1.svg">
+                        <img src="static/icon1.svg" alt="Lego brick">
+                    </label>
+                    <label>
+                        <input type="radio" name="upperleft-tails" value="static/icon2.svg">
+                        <img src="static/icon2.svg" alt="Diamond">
+                    </label>
+                    <label>
+                        <input type="radio" name="upperleft-tails" value="static/icon3.svg">
+                        <img src="static/icon3.svg" alt="Speeding truck">
+                    </label>
+                    <label>
+                        <input type="radio" name="upperleft-tails" value="static/icon4.svg">
+                        <img src="static/icon4.svg" alt="Horse">
+                    </label>
+                    <label>
+                        <input type="radio" name="upperleft-tails" value="static/icon5.svg">
+                        <img src="static/icon5.svg" alt="Truck">
+                    </label>
+                    <label>
+                        <input type="radio" name="upperleft-tails" value="static/icon6.svg">
+                        <img src="static/icon6.svg" alt="Turned Lego brick">
+                    </label>
+                </div>                
                 <label for="sides-heads">Choose text or laurels</label>
                 <select name="sides-heads" id="sides-heads">
                     <option value="none">Text</option>
@@ -44,32 +84,44 @@
             </div>
             <button type="button" class="collapsible">Tails (collapse/expand)</button>
             <div class="content">
-                <label for="shield-tails">Choose a shield:</label>
-                <select name="shield-tails" id="shield-tails">
-                    <option value="static/shield1.svg">Shield 1</option>
-                    <option value="static/shield2.svg" selected="selected">Shield 2</option>
-                    <option value="static/shield3.svg">Shield 3</option>
-                </select>
-                <label for="crown-tails">Choose a crown:</label>
-                <select name="crown-tails" id="crown-tails">
-                    <option value="none">None</option>
-                    <option value="static/crown1.svg">Crown 1</option>
-                    <option value="static/crown2.svg" selected="selected">Crown 2</option>
-                    <option value="static/crown3.svg">Crown 3</option>
-                </select>
+                <label for="shield-tails-options">Choose shield for coat of arms:</label>
+                <div class="icon-options" id="shield-tails-options">
+                    <label>
+                        <input type="radio" name="shield-tails" value="static/shield1.svg">
+                        <img src="static/shield1.svg" alt="Shield 1">
+                    </label>
+                    <label>
+                        <input type="radio" name="shield-tails" value="static/shield2.svg" checked>
+                        <img src="static/shield2.svg" alt="Shield 2">
+                    </label>
+                    <label>
+                        <input type="radio" name="shield-tails" value="static/shield3.svg">
+                        <img src="static/shield3.svg" alt="Shield 3">
+                    </label>
+                </div>
+                <label for="crown-tails-options">Choose crown (or none):</label>
+                <div class="icon-options" id="crown-tails-options">
+                    <label>
+                        <input type="radio" name="crown-tails" value="none" checked>
+                        <img src="static/none.svg" alt="None">
+                    </label>
+                    <label>
+                        <input type="radio" name="crown-tails" value="static/crown1.svg">
+                        <img src="static/crown1.svg" alt="Crown 1">
+                    </label>
+                    <label>
+                        <input type="radio" name="crown-tails" value="static/crown2.svg">
+                        <img src="static/crown2.svg" alt="Crown 2">
+                    </label>
+                    <label>
+                        <input type="radio" name="crown-tails" value="static/crown3.svg">
+                        <img src="static/crown3.svg" alt="Crown 3">
+                    </label>
+                </div>                
                 <label for="sides-tails">Choose text or laurels</label>
                 <select name="sides-tails" id="sides-tails">
                     <option value="none" selected="selected">Text</option>
                     <option value="static/laurels1.svg">Laurels</option>
-                </select>
-                <label for="upperleft-tails">Choose upper left icon:</label>
-                <select name="upperleft-tails" id="upperleft-tails">
-                    <option value="static/icon1.svg">Lego brick</option>
-                    <option value="static/icon2.svg">Diamond</option>
-                    <option value="static/icon3.svg">Speeding truck</option>
-                    <option value="static/icon4.svg">Horse</option>
-                    <option value="static/icon5.svg">Truck</option>
-                    <option value="static/icon6.svg">Turned Lego brick</option>
                 </select>
             </div>
             <label for="debug">Enable Debug:</label>
