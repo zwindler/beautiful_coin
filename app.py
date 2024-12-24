@@ -17,6 +17,10 @@ def generate():
     tails_crown_path = request.form["crown-tails"]
     tails_shield_path = request.form["shield-tails"]
     tails_laurels_path = request.form["sides-tails"]
+    tails_upperleft_path = request.form["upperleft-tails"]
+    tails_upperright_path = request.form["upperright-tails"]
+    tails_downleft_path = request.form["downleft-tails"]
+    tails_downright_path = request.form["downright-tails"]
     debug = request.form.get("debug", False)
     is_debug = debug == "on"
 
@@ -29,7 +33,7 @@ def generate():
     # Heads always have a single SVG as "head"
     elements.create_coin(heads_svg, heads_icon_path, heads_crown_path, heads_laurels_path, False, is_debug)
     # Tails always have a coat_of_arms (which is already scaled)
-    elements.create_coat_of_arms(coat_of_arms_path, tails_shield_path)
+    elements.create_coat_of_arms(coat_of_arms_path, tails_shield_path, tails_upperleft_path, tails_upperright_path, tails_downleft_path, tails_downright_path)
     elements.create_coin(tails_svg, coat_of_arms_path, tails_crown_path, tails_laurels_path, True, is_debug)
 
     with open(heads_svg, "r") as f:

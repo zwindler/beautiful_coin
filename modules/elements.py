@@ -2,21 +2,17 @@ import xml.etree.ElementTree as ET
 import modules.utils as utils
 import modules.svgbuilder as svgbuilder
 
-icon_paths = [
-    "static/icon1.svg",
-    "static/icon5.svg",
-    "static/icon4.svg",
-    "static/icon2.svg",
-]
-shield_path = "static/shield1.svg"
-
-def create_coat_of_arms(output_file, shield_path):
+def create_coat_of_arms(output_file, shield_path, ul_path, ur_path, dl_path, dr_path):
     """
     Creates a coat of arms SVG by overlaying a shield and placing icons in fixed positions.
 
     Args:
         output_file (str): Path to the output SVG file.
         shield_path (str): Path to the shield SVG file.
+        ul_path (str): Path to the upper left SVG icon file.
+        ur_path (str): Path to the upper right SVG icon file.
+        dl_path (str): Path to the down left SVG icon file.
+        dr_path (str): Path to the down right SVG icon file.
     """
     svg_tree = ET.parse(shield_path)
     svg_root = svg_tree.getroot()
@@ -42,6 +38,12 @@ def create_coat_of_arms(output_file, shield_path):
                  (285, 260)]
     target_size = (145, 145)
 
+    icon_paths = [
+        ul_path,
+        ur_path,
+        dl_path,
+        dr_path,
+    ]
     for pos, icon_file in zip(positions, icon_paths):
         icon_tree = ET.parse(icon_file)
         icon_root = icon_tree.getroot()
