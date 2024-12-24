@@ -12,53 +12,64 @@
             <button type="button" class="collapsible">Heads (collapse/expand)</button>
             <div class="content">
                 <label for="crown-heads">Choose a crown:</label>
-                <select name="crown" id="crown">
-                    <option value="none">None</option>
-                    <option value="svg/crown1.svg">Crown 1</option>
-                    <option value="svg/crown2.svg" selected="selected">Crown 2</option>
-                    <option value="svg/crown3.svg">Crown 3</option>
-                </select>
+                <div id="crown-options">
+                    <label>
+                        <input type="radio" name="crown" value="none" checked>
+                    </label>
+                    <label>
+                        <input type="radio" name="crown" value="static/crown1.svg">
+                        <img src="static/crown1.svg" alt="Crown 1" width="50">
+                    </label>
+                    <label>
+                        <input type="radio" name="crown" value="static/crown2.svg">
+                        <img src="static/crown2.svg" alt="Crown 2" width="50">
+                    </label>
+                    <label>
+                        <input type="radio" name="crown" value="static/crown3.svg">
+                        <img src="static/crown3.svg" alt="Crown 3" width="50">
+                    </label>
+                </div>
                 <label for="icon-heads">Choose an icon for heads:</label>
                 <select name="icon-heads" id="icon-heads">
-                    <option value="svg/icon7.svg">3D printer 1</option>
-                    <option value="svg/icon8.svg">3D printer 2</option>
-                    <option value="svg/icon9.svg" selected="selected">Skull 1</option>
-                    <option value="svg/icon10.svg">Skull 2</option>
+                    <option value="static/icon7.svg">3D printer 1</option>
+                    <option value="static/icon8.svg">3D printer 2</option>
+                    <option value="static/icon9.svg" selected="selected">Skull 1</option>
+                    <option value="static/icon10.svg">Skull 2</option>
                 </select>
                 <label for="sides-heads">Choose text or laurels</label>
                 <select name="sides-heads" id="sides-heads">
                     <option value="none">Text</option>
-                    <option value="svg/laurels1.svg" selected="selected">Laurels</option>
+                    <option value="static/laurels1.svg" selected="selected">Laurels</option>
                 </select>
             </div>
             <button type="button" class="collapsible">Tails (collapse/expand)</button>
             <div class="content">
                 <label for="shield-tails">Choose a shield:</label>
                 <select name="shield-tails" id="shield-tails">
-                    <option value="svg/shield1.svg">Shield 1</option>
-                    <option value="svg/shield2.svg" selected="selected">Shield 2</option>
-                    <option value="svg/shield3.svg">Shield 3</option>
+                    <option value="static/shield1.svg">Shield 1</option>
+                    <option value="static/shield2.svg" selected="selected">Shield 2</option>
+                    <option value="static/shield3.svg">Shield 3</option>
                 </select>
                 <label for="crown-tails">Choose a crown:</label>
                 <select name="crown-tails" id="crown-tails">
                     <option value="none">None</option>
-                    <option value="svg/crown1.svg">Crown 1</option>
-                    <option value="svg/crown2.svg" selected="selected">Crown 2</option>
-                    <option value="svg/crown3.svg">Crown 3</option>
+                    <option value="static/crown1.svg">Crown 1</option>
+                    <option value="static/crown2.svg" selected="selected">Crown 2</option>
+                    <option value="static/crown3.svg">Crown 3</option>
                 </select>
                 <label for="sides-tails">Choose text or laurels</label>
                 <select name="sides-tails" id="sides-tails">
                     <option value="none" selected="selected">Text</option>
-                    <option value="svg/laurels1.svg">Laurels</option>
+                    <option value="static/laurels1.svg">Laurels</option>
                 </select>
                 <label for="upperleft-tails">Choose upper left icon:</label>
                 <select name="upperleft-tails" id="upperleft-tails">
-                    <option value="svg/icon1.svg">Lego brick</option>
-                    <option value="svg/icon2.svg">Diamond</option>
-                    <option value="svg/icon3.svg">Speeding truck</option>
-                    <option value="svg/icon4.svg">Horse</option>
-                    <option value="svg/icon5.svg">Truck</option>
-                    <option value="svg/icon6.svg">Turned Lego brick</option>
+                    <option value="static/icon1.svg">Lego brick</option>
+                    <option value="static/icon2.svg">Diamond</option>
+                    <option value="static/icon3.svg">Speeding truck</option>
+                    <option value="static/icon4.svg">Horse</option>
+                    <option value="static/icon5.svg">Truck</option>
+                    <option value="static/icon6.svg">Turned Lego brick</option>
                 </select>
             </div>
             <label for="debug">Enable Debug:</label>

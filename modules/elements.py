@@ -3,12 +3,12 @@ import modules.utils as utils
 import modules.svgbuilder as svgbuilder
 
 icon_paths = [
-    "svg/icon1.svg",
-    "svg/icon5.svg",
-    "svg/icon4.svg",
-    "svg/icon2.svg",
+    "static/icon1.svg",
+    "static/icon5.svg",
+    "static/icon4.svg",
+    "static/icon2.svg",
 ]
-shield_path = "svg/shield1.svg"
+shield_path = "static/shield1.svg"
 
 def create_coat_of_arms(output_file, shield_path):
     """
