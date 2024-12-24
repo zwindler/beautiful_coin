@@ -4,74 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beautiful Coin Generator</title>
-    <style>
-        body {
-            display: flex;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        #left {
-            flex: 2; /* Increase the width of the left column */
-            padding: 20px;
-            box-sizing: border-box;
-            background-color: #f4f4f4;
-            border-right: 1px solid #ccc;
-        }
-        #right {
-            flex: 1; /* Keep the right column narrower */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .collapsible {
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            text-align: left;
-            font-size: 16px;
-            margin-top: 10px;
-            width: 100%;
-        }
-        .collapsible:hover {
-            background-color: #45a049;
-        }
-        .content {
-            display: block;
-            padding: 10px;
-            margin-top: 5px;
-            background-color: #f9f9f9;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .content.open {
-            display: block;
-        }
-        .coin-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 50%;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        select, input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-        }
-        svg {
-            max-width: 100%;
-            max-height: 100%;
-            height: auto;
-            width: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="static/basic.css">
 </head>
 <body>
     <div id="left">
@@ -137,55 +70,6 @@
             <p>Generated SVGs will appear here.</p>
         </div>
     </div>
-    <script>
-        // Fetch the form and output elements
-        const form = document.getElementById('generator-form');
-        const output = document.getElementById('output');
-
-        // Toggle collapsible sections
-        document.querySelectorAll('.collapsible').forEach(button => {
-            button.addEventListener('click', () => {
-                const content = button.nextElementSibling;
-                if (content.style.display === 'block' || content.style.display === '') {
-                    content.style.display = 'none';
-                } else {
-                    content.style.display = 'block';
-                }
-            });
-        });
-
-        // Fetch generated SVGs
-        async function fetchGeneratedCoin() {
-            const formData = new FormData(form);
-            try {
-                const response = await fetch('/generate', {
-                    method: 'POST',
-                    body: formData,
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    output.innerHTML = `
-                        <div class="coin-container">
-                            <div>${data.heads}</div>
-                        </div>
-                        <div class="coin-container">
-                            <div>${data.tails}</div>
-                        </div>
-                    `;
-                } else {
-                    output.innerHTML = `<p>Error generating SVGs. Please try again.</p>`;
-                }
-            } catch (error) {
-                output.innerHTML = `<p>Error connecting to the server. Please try again.</p>`;
-            }
-        }
-
-        // Trigger the generation on page load
-        document.addEventListener('DOMContentLoaded', fetchGeneratedCoin);
-
-        // Trigger the generation on form changes
-        form.addEventListener('change', fetchGeneratedCoin);
-    </script>
+    <script src="static/coin.js"></script>
 </body>
 </html>
