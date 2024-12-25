@@ -46,3 +46,21 @@ document.addEventListener('DOMContentLoaded', fetchGeneratedCoin);
 
 // Trigger the generation on form changes
 form.addEventListener('change', fetchGeneratedCoin);
+
+// Show text fields only when "none" (Text) is selected
+function toggleTextInputs(selectId, textInputId) {
+    const selectElement = document.getElementById(selectId);
+    const textInputDiv = document.getElementById(textInputId);
+
+    if (selectElement.value === "none") {
+        textInputDiv.style.display = "block";
+    } else {
+        textInputDiv.style.display = "none";
+    }
+}
+
+// Initialize visibility on page load
+document.addEventListener("DOMContentLoaded", () => {
+    toggleTextInputs('sides-heads', 'text-input-heads');
+    toggleTextInputs('sides-tails', 'text-input-tails');
+});

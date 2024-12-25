@@ -34,11 +34,17 @@
                 </div>
 
                 <!-- Sides Heads -->
-                <label for="sides-heads">Choose text or laurels</label>
-                <select name="sides-heads" id="sides-heads">
+                <label for="sides-heads">Choose text or laurels:</label>
+                <select name="sides-heads" id="sides-heads" onchange="toggleTextInputs('sides-heads', 'text-input-heads')">
                     <option value="none">Text</option>
                     <option value="static/laurels1.svg" selected="selected">Laurels</option>
                 </select>
+                <div id="text-input-heads" style="display: block;">
+                    <label for="text-heads-line1">Enter first line of text:</label>
+                    <input type="text" id="text-heads-line1" name="text-heads-line1" value="DARK ▾ VADA" placeholder="left side">
+                    <label for="text-heads-line2">Enter second line of text:</label>
+                    <input type="text" id="text-heads-line2" name="text-heads-line2" value="VADA ▾ COIN" placeholder="right side">
+                </div>
             </div>
 
             <button type="button" class="collapsible">Tails (collapse/expand)</button>
@@ -110,11 +116,15 @@
                 </div>
 
                 <!-- Sides Tails -->
-                <label for="sides-tails">Choose text or laurels</label>
-                <select name="sides-tails" id="sides-tails">
+                <label for="sides-tails">Choose text or laurels:</label>
+                <select name="sides-tails" id="sides-tails" onchange="toggleTextInputs('sides-tails', 'text-input-tails')">
                     <option value="none" selected="selected">Text</option>
                     <option value="static/laurels1.svg">Laurels</option>
                 </select>
+                <div id="text-input-tails" style="display: block;">
+                    <input type="text" id="text-tails-line1" name="text-tails-line1" value="DARK ▾ VADA" placeholder="left side">
+                    <input type="text" id="text-tails-line2" name="text-tails-line2" value="VADA ▾ COIN" placeholder="right side">
+                </div>
             </div>
 
             <!-- Debug Option -->

@@ -60,7 +60,7 @@ def create_coat_of_arms(output_file, shield_path, ul_path, ur_path, dl_path, dr_
     utils.write_clean_svg(tree, output_file)
 
 
-def create_coin(output_file, single_svg_path, crown_path, laurels_path, already_scaled=False, debug=False):
+def create_coin(output_file, single_svg_path, crown_path, laurels_path, left_line="", right_line="", already_scaled=False, debug=False):
     """
     Creates a complete SVG coin borders, a central icon or coat of arms, crown, and text or laurels at the sides.
 
@@ -69,6 +69,8 @@ def create_coin(output_file, single_svg_path, crown_path, laurels_path, already_
         single_svg_path (str): Path to the central SVG file.
         crown_path (str): path for the crown SVG file, "none" is no crown.
         laurels_path (str): path for the laurels SVG file, "none" is no laurels (and replaced by text).
+        left_line (str): if there is text instead of laurels, the text of the left side
+        right_line (str): if there is text instead of laurels, the text of the right side
         already_scaled (bool): is the central SVG file already scaled properly.
         debug (bool): enable / disable debug.
     """
@@ -94,8 +96,8 @@ def create_coin(output_file, single_svg_path, crown_path, laurels_path, already_
     else:
         # Add circular text around a textPath, inside the coin
         svgbuilder.SVGBuilder.add_textpath_circle(svg_element, 315, 425, "circlePath")
-        svgbuilder.SVGBuilder.add_text_on_circle(svg_element, 57.75, "DARK ▾ VADA", "circlePath")
-        svgbuilder.SVGBuilder.add_text_on_circle(svg_element, 8.40, "VADA ▾ COIN", "circlePath")
+        svgbuilder.SVGBuilder.add_text_on_circle(svg_element, 57.75, left_line, "circlePath")
+        svgbuilder.SVGBuilder.add_text_on_circle(svg_element, 8.40, right_line, "circlePath")
 
     if debug:
         svgbuilder.SVGBuilder.add_center_lines(svg_element, 850, 850)
