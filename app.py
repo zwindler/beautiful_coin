@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_file
 import modules.elements as elements
+import os
 
 common_options = {
     "crowns": [
@@ -91,5 +92,17 @@ def generate():
         "tails": tails_svg_content
     })
 
+@app.route("/download/<filename>")
+def download(filename):
+    """Route to download SVG files."""
+    base_dir = os.path.abspath(os.path.dirname(__file__))
+    filepath = os.path.join(base_dir, "output", filename)
+    files_in_output = os.listdir(os.path.join(base_dir, "output"))
+    app.logger.debug(f"Files in output directory: {files_in_output}")
+    if os.path.exists(filepath):
+        return send_file(filepath, as_attachment=True)
+    else:
+        return jsonify({"error": f"File {filename} not found in output directory: {files_in_output}"}), 404
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

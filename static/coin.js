@@ -27,10 +27,14 @@ async function fetchGeneratedCoin() {
             const data = await response.json();
             output.innerHTML = `
                 <div class="coin-container">
-                    <div>${data.heads}</div>
+                    <a href="/download/coin-heads.svg" download>
+                        <div>${data.heads}</div>
+                    </a>
                 </div>
                 <div class="coin-container">
-                    <div>${data.tails}</div>
+                    <a href="/download/coin-tails.svg" download>
+                        <div>${data.tails}</div>
+                    </a>
                 </div>
             `;
         } else {
