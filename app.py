@@ -1,12 +1,51 @@
 from flask import Flask, render_template, request, jsonify
 import modules.elements as elements
 
+common_options = {
+    "crowns": [
+        {"value": "none", "img": "static/none.svg", "alt": "None", "checked": True},
+        {"value": "static/crown1.svg", "img": "static/crown1.svg", "alt": "Crown 1"},
+        {"value": "static/crown2.svg", "img": "static/crown2.svg", "alt": "Crown 2"},
+        {"value": "static/crown3.svg", "img": "static/crown3.svg", "alt": "Crown 3"},
+    ],
+    "shields": [
+        {"value": "static/shield1.svg", "img": "static/shield1.svg", "alt": "Shield 1"},
+        {"value": "static/shield2.svg", "img": "static/shield2.svg", "alt": "Shield 2", "checked": True},
+        {"value": "static/shield3.svg", "img": "static/shield3.svg", "alt": "Shield 3"},
+    ],
+    "icons": [
+        {"value": "static/icon1.svg", "img": "static/icon1.svg", "alt": "Lego brick", "checked": True},
+        {"value": "static/icon2.svg", "img": "static/icon2.svg", "alt": "Diamond"},
+        {"value": "static/icon3.svg", "img": "static/icon3.svg", "alt": "Speeding truck"},
+        {"value": "static/icon4.svg", "img": "static/icon4.svg", "alt": "Horse"},
+        {"value": "static/icon5.svg", "img": "static/icon5.svg", "alt": "Truck"},
+        {"value": "static/icon6.svg", "img": "static/icon6.svg", "alt": "Turned Lego brick"},
+    ],
+    "icons_alternate": [
+        {"value": "static/icon7.svg", "img": "static/icon7.svg", "alt": "3D printer 1"},
+        {"value": "static/icon8.svg", "img": "static/icon8.svg", "alt": "3D printer 2"},
+        {"value": "static/icon9.svg", "img": "static/icon9.svg", "alt": "Skull 1", "checked": True},
+        {"value": "static/icon10.svg", "img": "static/icon10.svg", "alt": "Skull 2"},
+    ],
+}
+
+options = {
+    "crown-heads": common_options["crowns"],
+    "crown-tails": common_options["crowns"],
+    "icon-heads": common_options["icons_alternate"],
+    "shield-tails": common_options["shields"],
+    "upperleft-tails": common_options["icons"],
+    "upperright-tails": common_options["icons"],
+    "downleft-tails": common_options["icons"],
+    "downright-tails": common_options["icons"],
+}
+
 app = Flask(__name__)
 
 @app.route("/")
 def index():
     """Render the main page."""
-    return render_template("index.html")
+    return render_template("index.html", options=options)
 
 @app.route("/generate", methods=["POST"])
 def generate():

@@ -11,200 +11,113 @@
         <form id="generator-form">
             <button type="button" class="collapsible">Heads (collapse/expand)</button>
             <div class="content">
+                <!-- Crown Heads -->
                 <label for="crown-heads-options">Choose crown (or none):</label>
                 <div class="icon-options" id="crown-heads-options">
+                    {% for option in options['crown-heads'] %}
                     <label>
-                        <input type="radio" name="crown-heads" value="none" checked>
-                        <img src="static/none.svg" alt="None">
+                        <input type="radio" name="crown-heads" value="{{ option.value }}" {% if option.checked %}checked{% endif %}>
+                        <img src="{{ option.img }}" alt="{{ option.alt }}">
                     </label>
-                    <label>
-                        <input type="radio" name="crown-heads" value="static/crown1.svg">
-                        <img src="static/crown1.svg" alt="Crown 1">
-                    </label>
-                    <label>
-                        <input type="radio" name="crown-heads" value="static/crown2.svg">
-                        <img src="static/crown2.svg" alt="Crown 2">
-                    </label>
-                    <label>
-                        <input type="radio" name="crown-heads" value="static/crown3.svg">
-                        <img src="static/crown3.svg" alt="Crown 3">
-                    </label>
+                    {% endfor %}
                 </div>
+
+                <!-- Icon Heads -->
                 <label for="icon-heads">Choose an icon for heads:</label>
                 <div class="icon-options" id="icon-heads-options">
+                    {% for option in options['icon-heads'] %}
                     <label>
-                        <input type="radio" name="icon-heads" value="static/icon7.svg">
-                        <img src="static/icon7.svg" alt="3D printer 1">
+                        <input type="radio" name="icon-heads" value="{{ option.value }}" {% if option.checked %}checked{% endif %}>
+                        <img src="{{ option.img }}" alt="{{ option.alt }}">
                     </label>
-                    <label>
-                        <input type="radio" name="icon-heads" value="static/icon8.svg">
-                        <img src="static/icon8.svg" alt="3D printer 2">
-                    </label>
-                    <label>
-                        <input type="radio" name="icon-heads" value="static/icon9.svg" checked>
-                        <img src="static/icon9.svg" alt="Skull 1">
-                    </label>
-                    <label>
-                        <input type="radio" name="icon-heads" value="static/icon10.svg">
-                        <img src="static/icon10.svg" alt="Skull 2">
-                    </label>
+                    {% endfor %}
                 </div>
+
+                <!-- Sides Heads -->
                 <label for="sides-heads">Choose text or laurels</label>
                 <select name="sides-heads" id="sides-heads">
                     <option value="none">Text</option>
                     <option value="static/laurels1.svg" selected="selected">Laurels</option>
                 </select>
             </div>
+
             <button type="button" class="collapsible">Tails (collapse/expand)</button>
             <div class="content">
+                <!-- Crown Tails -->
                 <label for="crown-tails-options">Choose crown (or none):</label>
                 <div class="icon-options" id="crown-tails-options">
+                    {% for option in options['crown-tails'] %}
                     <label>
-                        <input type="radio" name="crown-tails" value="none" checked>
-                        <img src="static/none.svg" alt="None">
+                        <input type="radio" name="crown-tails" value="{{ option.value }}" {% if option.checked %}checked{% endif %}>
+                        <img src="{{ option.img }}" alt="{{ option.alt }}">
                     </label>
-                    <label>
-                        <input type="radio" name="crown-tails" value="static/crown1.svg">
-                        <img src="static/crown1.svg" alt="Crown 1">
-                    </label>
-                    <label>
-                        <input type="radio" name="crown-tails" value="static/crown2.svg">
-                        <img src="static/crown2.svg" alt="Crown 2">
-                    </label>
-                    <label>
-                        <input type="radio" name="crown-tails" value="static/crown3.svg">
-                        <img src="static/crown3.svg" alt="Crown 3">
-                    </label>
+                    {% endfor %}
                 </div>
+
+                <!-- Shield Tails -->
                 <label for="shield-tails-options">Choose shield for coat of arms:</label>
                 <div class="icon-options" id="shield-tails-options">
+                    {% for option in options['shield-tails'] %}
                     <label>
-                        <input type="radio" name="shield-tails" value="static/shield1.svg">
-                        <img src="static/shield1.svg" alt="Shield 1">
+                        <input type="radio" name="shield-tails" value="{{ option.value }}" {% if option.checked %}checked{% endif %}>
+                        <img src="{{ option.img }}" alt="{{ option.alt }}">
                     </label>
-                    <label>
-                        <input type="radio" name="shield-tails" value="static/shield2.svg" checked>
-                        <img src="static/shield2.svg" alt="Shield 2">
-                    </label>
-                    <label>
-                        <input type="radio" name="shield-tails" value="static/shield3.svg">
-                        <img src="static/shield3.svg" alt="Shield 3">
-                    </label>
+                    {% endfor %}
                 </div>
+
+                <!-- Upper Left Tails -->
                 <label for="upperleft-tails">Choose upper left icon:</label>
                 <div class="icon-options" id="upperleft-tails-options">
+                    {% for option in options['upperleft-tails'] %}
                     <label>
-                        <input type="radio" name="upperleft-tails" value="static/icon1.svg" checked>
-                        <img src="static/icon1.svg" alt="Lego brick">
+                        <input type="radio" name="upperleft-tails" value="{{ option.value }}" {% if option.checked %}checked{% endif %}>
+                        <img src="{{ option.img }}" alt="{{ option.alt }}">
                     </label>
-                    <label>
-                        <input type="radio" name="upperleft-tails" value="static/icon2.svg">
-                        <img src="static/icon2.svg" alt="Diamond">
-                    </label>
-                    <label>
-                        <input type="radio" name="upperleft-tails" value="static/icon3.svg">
-                        <img src="static/icon3.svg" alt="Speeding truck">
-                    </label>
-                    <label>
-                        <input type="radio" name="upperleft-tails" value="static/icon4.svg">
-                        <img src="static/icon4.svg" alt="Horse">
-                    </label>
-                    <label>
-                        <input type="radio" name="upperleft-tails" value="static/icon5.svg">
-                        <img src="static/icon5.svg" alt="Truck">
-                    </label>
-                    <label>
-                        <input type="radio" name="upperleft-tails" value="static/icon6.svg">
-                        <img src="static/icon6.svg" alt="Turned Lego brick">
-                    </label>
+                    {% endfor %}
                 </div>
-                <label for="upperright-tails">Choose upper left icon:</label>
+
+                <!-- Upper Right Tails -->
+                <label for="upperright-tails">Choose upper right icon:</label>
                 <div class="icon-options" id="upperright-tails-options">
+                    {% for option in options['upperright-tails'] %}
                     <label>
-                        <input type="radio" name="upperright-tails" value="static/icon1.svg">
-                        <img src="static/icon1.svg" alt="Lego brick">
+                        <input type="radio" name="upperright-tails" value="{{ option.value }}" {% if option.checked %}checked{% endif %}>
+                        <img src="{{ option.img }}" alt="{{ option.alt }}">
                     </label>
-                    <label>
-                        <input type="radio" name="upperright-tails" value="static/icon2.svg">
-                        <img src="static/icon2.svg" alt="Diamond">
-                    </label>
-                    <label>
-                        <input type="radio" name="upperright-tails" value="static/icon3.svg">
-                        <img src="static/icon3.svg" alt="Speeding truck">
-                    </label>
-                    <label>
-                        <input type="radio" name="upperright-tails" value="static/icon4.svg">
-                        <img src="static/icon4.svg" alt="Horse">
-                    </label>
-                    <label>
-                        <input type="radio" name="upperright-tails" value="static/icon5.svg" checked>
-                        <img src="static/icon5.svg" alt="Truck">
-                    </label>
-                    <label>
-                        <input type="radio" name="upperright-tails" value="static/icon6.svg">
-                        <img src="static/icon6.svg" alt="Turned Lego brick">
-                    </label>
+                    {% endfor %}
                 </div>
+
+                <!-- Down Left Tails -->
                 <label for="downleft-tails">Choose down left icon:</label>
                 <div class="icon-options" id="downleft-tails-options">
+                    {% for option in options['downleft-tails'] %}
                     <label>
-                        <input type="radio" name="downleft-tails" value="static/icon1.svg">
-                        <img src="static/icon1.svg" alt="Lego brick">
+                        <input type="radio" name="downleft-tails" value="{{ option.value }}" {% if option.checked %}checked{% endif %}>
+                        <img src="{{ option.img }}" alt="{{ option.alt }}">
                     </label>
-                    <label>
-                        <input type="radio" name="downleft-tails" value="static/icon2.svg" checked>
-                        <img src="static/icon2.svg" alt="Diamond">
-                    </label>
-                    <label>
-                        <input type="radio" name="downleft-tails" value="static/icon3.svg">
-                        <img src="static/icon3.svg" alt="Speeding truck">
-                    </label>
-                    <label>
-                        <input type="radio" name="downleft-tails" value="static/icon4.svg">
-                        <img src="static/icon4.svg" alt="Horse">
-                    </label>
-                    <label>
-                        <input type="radio" name="downleft-tails" value="static/icon5.svg">
-                        <img src="static/icon5.svg" alt="Truck">
-                    </label>
-                    <label>
-                        <input type="radio" name="downleft-tails" value="static/icon6.svg">
-                        <img src="static/icon6.svg" alt="Turned Lego brick">
-                    </label>
+                    {% endfor %}
                 </div>
-                <label for="downright-tails">Choose down left icon:</label>
+
+                <!-- Down Right Tails -->
+                <label for="downright-tails">Choose down right icon:</label>
                 <div class="icon-options" id="downright-tails-options">
+                    {% for option in options['downright-tails'] %}
                     <label>
-                        <input type="radio" name="downright-tails" value="static/icon1.svg">
-                        <img src="static/icon1.svg" alt="Lego brick">
+                        <input type="radio" name="downright-tails" value="{{ option.value }}" {% if option.checked %}checked{% endif %}>
+                        <img src="{{ option.img }}" alt="{{ option.alt }}">
                     </label>
-                    <label>
-                        <input type="radio" name="downright-tails" value="static/icon2.svg">
-                        <img src="static/icon2.svg" alt="Diamond">
-                    </label>
-                    <label>
-                        <input type="radio" name="downright-tails" value="static/icon3.svg">
-                        <img src="static/icon3.svg" alt="Speeding truck">
-                    </label>
-                    <label>
-                        <input type="radio" name="downright-tails" value="static/icon4.svg" checked>
-                        <img src="static/icon4.svg" alt="Horse">
-                    </label>
-                    <label>
-                        <input type="radio" name="downright-tails" value="static/icon5.svg">
-                        <img src="static/icon5.svg" alt="Truck">
-                    </label>
-                    <label>
-                        <input type="radio" name="downright-tails" value="static/icon6.svg">
-                        <img src="static/icon6.svg" alt="Turned Lego brick">
-                    </label>
-                </div>             
+                    {% endfor %}
+                </div>
+
+                <!-- Sides Tails -->
                 <label for="sides-tails">Choose text or laurels</label>
                 <select name="sides-tails" id="sides-tails">
                     <option value="none" selected="selected">Text</option>
                     <option value="static/laurels1.svg">Laurels</option>
                 </select>
             </div>
+
+            <!-- Debug Option -->
             <label for="debug">Enable Debug:</label>
             <input type="checkbox" id="debug" name="debug">
         </form>
