@@ -212,8 +212,8 @@ class SVGBuilder:
         svg_root.append(svg_group)
 
         if crown:
-            return SVGBuilder.add_group_with_transform(parent, "translate(169, 235)", svg_root)
-        return SVGBuilder.add_group_with_transform(parent, "translate(169, 210)", svg_root)
+            return SVGBuilder.add_group_with_transform(parent, "translate(169, 232)", svg_root)
+        return SVGBuilder.add_group_with_transform(parent, "translate(169, 200)", svg_root)
     
     @staticmethod
     def add_laurels(parent, laurels_path):
