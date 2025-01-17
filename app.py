@@ -18,7 +18,7 @@ common_options = {
         {"value": "static/icon1.svg", "img": "static/icon1.svg", "alt": "Lego brick", "checked": True},
         {"value": "static/icon2.svg", "img": "static/icon2.svg", "alt": "Diamond"},
         {"value": "static/icon3.svg", "img": "static/icon3.svg", "alt": "Speeding truck"},
-        {"value": "static/icon4.svg", "img": "static/icon4.svg", "alt": "Horse"},
+        {"value": "static/icon4-2.svg", "img": "static/icon4-2.svg", "alt": "Horse"},
         {"value": "static/icon5.svg", "img": "static/icon5.svg", "alt": "Truck"},
         {"value": "static/icon6.svg", "img": "static/icon6.svg", "alt": "Turned Lego brick"},
     ],
