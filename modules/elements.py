@@ -60,7 +60,7 @@ def create_coat_of_arms(output_file, shield_path, ul_path, ur_path, dl_path, dr_
     utils.write_clean_svg(tree, output_file)
 
 
-def create_coin(output_file, single_svg_path, crown_path, laurels_path, left_line="", right_line="", already_scaled=False, debug=False):
+def create_coin(output_file, single_svg_path, crown_path, laurels_path, left_line="", right_line="", already_scaled=False, debug=False, background=True):
     """
     Creates a complete SVG coin borders, a central icon or coat of arms, crown, and text or laurels at the sides.
 
@@ -77,7 +77,8 @@ def create_coin(output_file, single_svg_path, crown_path, laurels_path, left_lin
     svg_element = svgbuilder.SVGBuilder.create_svg(850, 850, "0 0 850 850")
 
     # Add a white background if necessary (TODO add condition)
-    utils.add_white_background(svg_element)
+    if background:
+        utils.add_white_background(svg_element)
 
     # Add concentric circles to materialize the coin
     svgbuilder.SVGBuilder.add_circle(svg_element, 420, 425, "black")
