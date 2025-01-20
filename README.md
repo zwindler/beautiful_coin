@@ -2,6 +2,8 @@
 
 This project is still very WIP, but the idea is to create a simple generator that prompts the user for various choices to create a customized STL file to print a 3D coin using a 3D printer.
 
+![](binary/beautiful_coin_ui.png)
+
 For now SVG to STL part is not yet implemented, only coin generator (to SVG)
 
 Use https://imagetostl.com/convert/file/svg/to/stl for now (+ Invert Output option so that white is void, not the contrary)
