@@ -23,7 +23,6 @@ def create_coat_of_arms(output_file, shield_path, ul_path, ur_path, dl_path, dr_
 
     # Fix scale issues
     scale = utils.scale_svg(svg_root, (512, 512))
-    print(f"Calculated scale for svg: {scale}")
 
     # Wrap the svg elements in a <g> tag with scale transformation
     svg_group = ET.Element("g", {"transform": f"scale({scale})"})
@@ -51,7 +50,6 @@ def create_coat_of_arms(output_file, shield_path, ul_path, ur_path, dl_path, dr_
 
         viewbox = icon_root.attrib.get("viewBox", "0 0 100 100")
         scale = utils.get_viewbox_scale(viewbox, target_size)
-        # print(f"Calculated scale for icon {icon_file}: {scale}")
 
         # Create a group for each icon and append it
         svgbuilder.SVGBuilder.add_group_with_transform(svg_root, f"translate({pos[0]},{pos[1]}) scale({scale})", icon_root)

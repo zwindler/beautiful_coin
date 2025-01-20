@@ -171,7 +171,6 @@ class SVGBuilder:
 
         # Fix scale issues
         scale = utils.scale_svg(svg_root, (320, 320))
-        print(f"Calculated scale for crown: {scale}")
 
         # Wrap the svg elements in a <g> tag with scale transformation
         svg_group = ET.Element("g", {"transform": f"scale({scale})"})
@@ -207,7 +206,6 @@ class SVGBuilder:
         else:
             # Fix scale issues
             scale = utils.scale_svg(svg_root, (512, 512))
-            print(f"Calculated scale for svg {single_svg_path}: {scale}")
 
         # Wrap the svg elements in a <g> tag with scale transformation
         svg_group = ET.Element("g", {"transform": f"scale({scale})"})
