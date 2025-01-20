@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+from defusedxml.ElementTree import parse as safe_parse
 import modules.utils as utils
 import modules.svgbuilder as svgbuilder
 
@@ -14,7 +15,7 @@ def create_coat_of_arms(output_file, shield_path, ul_path, ur_path, dl_path, dr_
         dl_path (str): Path to the down left SVG icon file.
         dr_path (str): Path to the down right SVG icon file.
     """
-    svg_tree = ET.parse(shield_path)
+    svg_tree = safe_parse(shield_path)
     svg_root = svg_tree.getroot()
 
     # Ensure the svg SVG has a proper viewBox
@@ -45,7 +46,7 @@ def create_coat_of_arms(output_file, shield_path, ul_path, ur_path, dl_path, dr_
         dr_path,
     ]
     for pos, icon_file in zip(positions, icon_paths):
-        icon_tree = ET.parse(icon_file)
+        icon_tree = safe_parse(icon_file)
         icon_root = icon_tree.getroot()
 
         viewbox = icon_root.attrib.get("viewBox", "0 0 100 100")

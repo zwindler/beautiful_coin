@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+from defusedxml.ElementTree import parse as safe_parse
 import modules.utils as utils
 from lxml import etree
 
@@ -162,7 +163,7 @@ class SVGBuilder:
         Returns:
             ET.Element: Updated parent element.
         """
-        svg_tree = ET.parse(crown_path)
+        svg_tree = safe_parse(crown_path)
         svg_root = svg_tree.getroot()
 
         # Ensure the svg SVG has a proper viewBox
@@ -195,7 +196,7 @@ class SVGBuilder:
         Returns:
             ET.Element: Updated parent element.
         """
-        svg_tree = ET.parse(single_svg_path)
+        svg_tree = safe_parse(single_svg_path)
         svg_root = svg_tree.getroot()
 
         # Ensure the svg SVG has a proper viewBox
@@ -231,7 +232,7 @@ class SVGBuilder:
         Returns:
             ET.Element: Updated parent element.
         """
-        laurels_tree = ET.parse(laurels_path)
+        laurels_tree = safe_parse(laurels_path)
         laurels_root = laurels_tree.getroot()
         return SVGBuilder.add_group_with_transform(parent, "translate(31, 60) scale(0.615)", laurels_root)
 
