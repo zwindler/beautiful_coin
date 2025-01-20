@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 import modules.utils as utils
+from lxml import etree
 
 class SVGBuilder:
     """Utility class for simplifying SVG element manipulation."""
@@ -38,7 +39,10 @@ class SVGBuilder:
         Returns:
             str: XML string without namespace prefixes.
         """
-        return xml_string.replace('ns0:', '').replace(':ns0', '')
+        tree = etree.fromstring(xml_string.encode('utf-8'))
+        for elem in tree.iter():
+            elem.tag = etree.QName(elem).localname
+        return etree.tostring(tree, encoding='unicode')
 
     @staticmethod
     def add_group_with_transform(parent, transform, elements):
