@@ -21,6 +21,8 @@ common_options = {
         {"value": "static/icon4-2.svg", "img": "static/icon4-2.svg", "alt": "Horse"},
         {"value": "static/icon5.svg", "img": "static/icon5.svg", "alt": "Truck"},
         {"value": "static/icon6.svg", "img": "static/icon6.svg", "alt": "Turned Lego brick"},
+        {"value": "static/icon11.svg", "img": "static/icon11.svg", "alt": "Lion"},
+        {"value": "static/icon12.svg", "img": "static/icon12.svg", "alt": "Sword and Axe"},
     ],
     "icons_alternate": [
         {"value": "static/icon7.svg", "img": "static/icon7.svg", "alt": "3D printer 1"},
